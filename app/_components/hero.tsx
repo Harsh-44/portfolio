@@ -1,36 +1,104 @@
-import { heroMetrics, profile } from "@/app/_data/portfolio";
+import portrait from "@/app/assets/images/portrait.jpg";
+import { HeroScaledDesktop } from "@/app/_components/hero-scaled-desktop";
+import { HeroPortrait } from "@/app/_components/hero-portrait";
+
+const specialties = ["ui/ux design", "web/app development", "cybersecurity"] as const;
+
+function Word({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
+  return (
+    <span className={`inline-flex ${className}`}>
+      {text.split("").map((letter, index) => (
+        <span
+          key={`${text}-${index}`}
+          className="inline-block"
+          aria-hidden="true"
+        >
+          {letter === " " ? "\u00A0" : letter}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function DeveloperWord({
+  wordClassName = "",
+  ampersandClassName = "",
+}: {
+  wordClassName?: string;
+  ampersandClassName?: string;
+}) {
+  return (
+    <span className="inline-flex flex-col items-start leading-none">
+      <span className={`inline-block ${ampersandClassName}`} aria-hidden="true">
+        &
+      </span>
+      <Word
+        text="Developer"
+        className={`text-white mix-blend-difference ${wordClassName}`}
+      />
+    </span>
+  );
+}
 
 export function Hero() {
   return (
-    <section
-      id="top"
-      className="border-b border-white/8 pb-14 pt-10 lg:pb-20 lg:pt-16"
-    >
-      <div className="mx-auto flex max-w-[92rem] flex-col items-center gap-8 px-2 text-center lg:gap-10">
-        <h1 className="max-w-[14ch] text-[4.5rem] font-semibold leading-[0.88] tracking-[-0.07em] text-[var(--color-text)] sm:text-[7rem] lg:text-[10rem] xl:text-[11rem]">
-          <span className="font-display block uppercase">UI/UX FOCUSED</span>
-          <span className="font-display block uppercase">Frontend</span>
-          <span className="font-display block uppercase">Engineer</span>
-        </h1>
+    <section id="top">
+      <div className="mx-auto max-w-[112rem]">
+        <div className="mt-8 md:hidden">
+          <div className="space-y-6">
+            <div className="space-y-2 text-center">
+              <h1 className="text-[3.1rem] font-black uppercase leading-[0.9] tracking-[-0.11em] text-white mix-blend-difference sm:text-[4.2rem]">
+                <Word text="Creative Designer" />
+              </h1>
+              <div className="flex items-start justify-center gap-3 sm:gap-4">
+                <span
+                  className="text-[3rem] font-black uppercase leading-none tracking-[-0.11em] text-[var(--color-accent-strong)] sm:text-[4rem]"
+                  aria-hidden="true"
+                >
+                  &
+                </span>
+                <h2 className="pt-[0.16em] text-[3rem] font-black uppercase leading-[0.82] tracking-[-0.11em] text-white mix-blend-difference sm:text-[4rem]">
+                  <Word text="Developer" />
+                </h2>
+              </div>
+            </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-5 text-lg text-[var(--color-soft)]">
-          <span className="inline-flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-cream)] text-sm font-bold text-[var(--color-ink)]">
-              H
-            </span>
-            {profile.name}
-          </span>
-          <span className="inline-flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-accent)] bg-[var(--color-accent-soft)] text-sm font-bold text-[var(--color-accent-strong)]">
-              UX
-            </span>
-            {profile.location}
-          </span>
+            <p className="font-mono text-center text-[0.82rem] font-medium uppercase tracking-[0.44em] text-[var(--color-soft)] sm:text-[0.95rem]">
+              Based In Singapore
+            </p>
+          </div>
+
+          <div className="mt-8 flex items-end justify-center gap-4 sm:gap-6">
+            <div className="w-[10.75rem] shrink-0 sm:w-[13rem]">
+              <HeroPortrait
+                image={portrait}
+                alt="Portrait of Harsh Hareendran Kallinkeel"
+                areaRatio={0.14}
+                priority
+              />
+            </div>
+
+            <div className="min-w-0 space-y-3 text-right text-[var(--color-soft)]">
+              {specialties.map((specialty) => (
+                <p
+                  key={specialty}
+                  className="text-[1.2rem] font-semibold uppercase tracking-[-0.04em] sm:text-[1.45rem]"
+                >
+                  <span className="text-[var(--color-accent-strong)]">/</span>{" "}
+                  {specialty}
+                </p>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <p className="max-w-3xl text-lg leading-8 text-[var(--color-muted)] sm:text-xl">
-          {profile.intro} {profile.subtitle}
-        </p>
+        <HeroScaledDesktop portrait={portrait} specialties={specialties} />
       </div>
     </section>
   );

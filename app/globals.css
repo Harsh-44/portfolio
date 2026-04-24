@@ -1,30 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --color-canvas: #0f1013;
-  --color-surface: #17181d;
-  --color-surface-alt: #1e2026;
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-border-strong: rgba(255, 255, 255, 0.18);
-  --color-text: #f3f0ea;
-  --color-muted: #a5a0a0;
-  --color-soft: #ddd8d4;
+  --color-canvas: #fcfbf8;
+  --color-surface: #ffffff;
+  --color-surface-alt: #fbf9f5;
+  --color-border: rgba(17, 18, 22, 0.12);
+  --color-border-strong: rgba(17, 18, 22, 0.2);
+  --color-text: #111216;
+  --color-muted: #6f6964;
+  --color-soft: #26242a;
   --color-accent: #8b5cf6;
   --color-accent-strong: #7c3aed;
   --color-accent-soft: rgba(139, 92, 246, 0.12);
-  --color-cream: #f3f0ea;
+  --color-cream: #fcfaf6;
   --color-ink: #111216;
-  --font-sans: var(--font-body), sans-serif;
-  --font-display: var(--font-display), sans-serif;
-  --font-editorial: var(--font-editorial), serif;
-  --font-mono: var(--font-mono), monospace;
+  --app-font-sans: var(--font-body), sans-serif;
+  --app-font-display: var(--font-display), sans-serif;
+  --app-font-editorial: var(--font-editorial), serif;
+  --app-font-mono: var(--font-mono), monospace;
 }
 
 @theme inline {
   --color-background: var(--color-canvas);
   --color-foreground: var(--color-text);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--app-font-sans);
+  --font-mono: var(--app-font-mono);
 }
 
 * {
@@ -40,7 +40,7 @@ body {
   min-width: 320px;
   background: var(--color-canvas);
   color: var(--color-text);
-  font-family: var(--font-sans);
+  font-family: var(--app-font-sans);
   text-rendering: optimizeLegibility;
 }
 
@@ -60,11 +60,15 @@ button {
 }
 
 .font-display {
-  font-family: var(--font-display);
+  font-family: var(--app-font-display);
 }
 
 .font-editorial {
-  font-family: var(--font-editorial);
+  font-family: var(--app-font-editorial);
+}
+
+.font-mono {
+  font-family: var(--app-font-mono);
 }
 
 .surface-panel {
@@ -91,18 +95,17 @@ button {
 .project-visual {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--color-border);
   background: #16171b;
 }
 
 .metric-tile {
-  background: var(--color-surface-alt);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pill {
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .accent-text {
@@ -120,6 +123,45 @@ button {
   background: rgba(139, 92, 246, 0.08);
 }
 
+.slot-link .slot-char-top {
+  transform: translateY(0);
+  transition:
+    transform 85ms cubic-bezier(0.33, 1, 0.68, 1),
+    transition-delay 0ms linear;
+  transition-delay: var(--slot-delay-leave, 0s);
+}
+
+.slot-link .slot-char-bottom {
+  transform: translateY(100%);
+  transition:
+    transform 85ms cubic-bezier(0.33, 1, 0.68, 1),
+    transition-delay 0ms linear;
+  transition-delay: var(--slot-delay-leave, 0s);
+}
+
+.slot-link:hover .slot-char-top {
+  transform: translateY(-100%);
+  transition-delay: var(--slot-delay-enter, 0s);
+}
+
+.slot-link:hover .slot-char-bottom {
+  transform: translateY(0);
+  transition-delay: var(--slot-delay-enter, 0s);
+}
+
+.slot-brace-left,
+.slot-brace-right {
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slot-link:hover .slot-brace-left {
+  transform: translateX(-0.38em);
+}
+
+.slot-link:hover .slot-brace-right {
+  transform: translateX(0.38em);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -133,4 +175,5 @@ button {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
 }
