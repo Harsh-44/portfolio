@@ -1,48 +1,177 @@
+import { ArrowUpRight } from "lucide-react";
+
 const navItems = [
   { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
+  { href: "#experiences", label: "Experiences" },
   { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contact", label: "Contact" },
+  { href: "#skills", label: "Tools" },
 ];
 
-export function SiteHeader() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-[var(--color-cream)] text-[var(--color-ink)]">
-      <div className="mx-auto grid w-full max-w-[110rem] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <a
-          href="#top"
-          className="font-display text-4xl font-bold tracking-[-0.08em] text-[var(--color-ink)]"
-        >
-          H.
-        </a>
+function SlotText({ text }: { text: string }) {
+  const leftBrace = text.startsWith("{") ? "{" : "";
+  const rightBrace = text.endsWith("}") ? "}" : "";
+  const coreText = leftBrace && rightBrace ? text.slice(1, -1) : text;
+  const animatedCharacters = coreText.split("").filter((character) => character !== " ");
+  let staggerIndex = 0;
 
-        <div className="hidden items-center gap-6 lg:flex">
-          <nav className="flex items-center gap-6">
-            {navItems.map((item, index) => (
+  return (
+    <span
+      className="inline-flex leading-none"
+      style={{ fontFamily: "var(--font-mono)" }}
+    >
+      {leftBrace ? (
+        <span className="inline-flex pr-[0.08em]" style={{ fontFamily: "var(--font-mono)" }}>
+          <span className="slot-brace-left">
+            {leftBrace}
+          </span>
+        </span>
+      ) : null}
+
+      {coreText.split("").map((character, index) => {
+        const glyph = character === " " ? "\u00A0" : character;
+        const enterDelay =
+          character === " " ? "0s" : `${staggerIndex * 0.06}s`;
+        const leaveDelay =
+          character === " "
+            ? "0s"
+            : `${(animatedCharacters.length - 1 - staggerIndex) * 0.06}s`;
+
+        if (character !== " ") {
+          staggerIndex += 1;
+        }
+
+        return (
+          <span
+            key={`${text}-${index}`}
+            className="relative inline-flex h-[1.15em] overflow-hidden align-top"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            <span className="invisible">{glyph}</span>
+            <span
+              className="slot-char-top absolute inset-0 flex items-center justify-center"
+              style={{
+                fontFamily: "var(--font-mono)",
+                ["--slot-delay-enter" as string]: enterDelay,
+                ["--slot-delay-leave" as string]: leaveDelay,
+              }}
+            >
+              {glyph}
+            </span>
+            <span
+              className="slot-char-bottom absolute inset-0 flex items-center justify-center"
+              style={{
+                fontFamily: "var(--font-mono)",
+                ["--slot-delay-enter" as string]: enterDelay,
+                ["--slot-delay-leave" as string]: leaveDelay,
+              }}
+              aria-hidden="true"
+            >
+              {glyph}
+            </span>
+          </span>
+        );
+      })}
+
+      {rightBrace ? (
+        <span className="inline-flex pl-[0.08em]" style={{ fontFamily: "var(--font-mono)" }}>
+          <span className="slot-brace-right">
+            {rightBrace}
+          </span>
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+type SiteHeaderProps = {
+  hrefPrefix?: string;
+};
+
+export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
+  const logoHref = hrefPrefix ? "/" : "#top";
+
+  return (
+    <header
+      className="sticky top-0 z-50 text-[var(--color-ink)] mix-blend-difference transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      style={{
+        transform:
+          "translate3d(0, calc(var(--projects-header-hide, 0) * -108%), 0)",
+        opacity: "calc(1 - (var(--projects-header-hide, 0) * 0.18))",
+      }}
+    >
+      <div
+        className="mx-auto grid w-full max-w-[110rem] grid-cols-[auto_1fr_auto] items-center"
+        style={{
+          gap: "calc(0.75rem + 0.5vw)",
+          paddingInline: "calc(1rem + 0.8vw)",
+          paddingBlock: "calc(0.55rem + 0.25vw)",
+        }}
+      >
+        <div className="justify-self-start">
+          <a
+            href={logoHref}
+            className="font-display font-extrabold tracking-[-0.08em] text-white"
+            style={{ fontSize: "calc(1.7rem + 0.8vw)" }}
+          >
+            H.
+          </a>
+        </div>
+
+        <div className="hidden justify-self-center lg:flex">
+          <nav
+            className="flex items-center"
+            style={{ gap: "calc(1.25rem + 1vw)" }}
+          >
+            {navItems.map((item) => (
               <a
                 key={item.href}
-                href={item.href}
-                className="text-[0.95rem] text-[var(--color-ink)]/80 hover:text-[var(--color-accent-strong)]"
+                href={`${hrefPrefix}${item.href}`}
+                className="slot-link group relative inline-flex items-center font-normal uppercase text-white"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "calc(0.86rem + 0.28vw)",
+                  letterSpacing: "0.10em",
+                  paddingBlock: "calc(0.15rem + 0.1vw)",
+                }}
               >
-                {item.label}
+                <SlotText text={`[ ${item.label} ]`} />
               </a>
             ))}
           </nav>
         </div>
 
-        <div className="flex items-center justify-end gap-3">
+        <div className="justify-self-end">
           <a
-            href="#projects"
-            className="rounded-xl bg-[var(--color-ink)] px-4 py-2.5 text-sm font-semibold text-white"
+            href={`${hrefPrefix}#contact`}
+            className="group inline-flex items-center pb-1 font-black uppercase tracking-[0.04em] text-white"
+            style={{
+              gap: "calc(0.35rem + 0.2vw)",
+              fontSize: "calc(0.86rem + 0.28vw)",
+            }}
           >
-            Featured Work
-          </a>
-          <a
-            href="#contact"
-            className="hidden rounded-xl border border-black/20 px-4 py-2.5 text-sm font-medium text-[var(--color-ink)] lg:inline-flex"
-          >
-            Contact
+            <span className="relative inline-block">
+              <span
+                className="font-normal uppercase text-white"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "calc(0.86rem + 0.28vw)",
+                  letterSpacing: "0.10em",
+                  paddingBlock: "calc(0.15rem + 0.1vw)",
+                }}
+              >
+                Contact Me
+              </span>
+              <span className="absolute -bottom-1 left-0 h-[2px] w-full overflow-hidden bg-white">
+                <span className="absolute left-[-24%] top-0 h-full w-[14%] translate-x-0 bg-[var(--color-canvas)] transition-transform duration-500 ease-out group-hover:translate-x-[900%]" />
+              </span>
+            </span>
+            <ArrowUpRight
+              className="text-white transition duration-300 ease-out group-hover:rotate-[45deg]"
+              style={{
+                width: "calc(1rem + 0.2vw)",
+                height: "calc(1rem + 0.2vw)",
+              }}
+            />
           </a>
         </div>
       </div>

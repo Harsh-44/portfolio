@@ -6,7 +6,7 @@ export function ExperienceSection() {
     <SectionShell
       id="experience"
       index="02"
-      title="Experience"
+      title="Industry Experience"
       description="The through-line across these roles is clarity: turning complexity into interfaces that feel intentional and usable."
     >
       <div className="space-y-4">

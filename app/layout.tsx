@@ -5,11 +5,12 @@ import {
   Manrope,
   Syne,
 } from "next/font/google";
+import { SmoothScroll } from "@/app/_components/smooth-scroll";
 import "./globals.css";
 
 const bodyFont = Manrope({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-body",
 });
 
@@ -69,6 +70,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="min-h-full bg-[var(--color-canvas)] text-[var(--color-text)]">
+        <SmoothScroll />
         {children}
       </body>
     </html>
