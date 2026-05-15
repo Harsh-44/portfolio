@@ -49,6 +49,7 @@ function AchievementItem({
   onLeave: () => void;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const shouldShowImage = !achievement.title.includes("CTF");
 
   return (
       <article
@@ -100,14 +101,16 @@ function AchievementItem({
               opacity: isActive ? 1 : 0.72,
             }}
           >
-            <div className="relative h-[340px] w-full overflow-hidden">
-              <Image
-                src={bandImage}
-                alt="Band performance"
-                fill
-                className="object-cover"
-              />
-            </div>
+            {shouldShowImage ? (
+              <div className="relative h-[340px] w-full overflow-hidden">
+                <Image
+                  src={bandImage}
+                  alt="Band performance"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
             <p className="max-w-[70ch] text-[1rem] leading-7 text-[var(--color-muted)]">
               {achievement.description}
             </p>

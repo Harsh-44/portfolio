@@ -187,11 +187,11 @@ function LeadMeta({
   value: string;
 }) {
   return (
-    <div className="space-y-1.5">
-      <p className="font-mono text-[0.72rem] uppercase tracking-[0.2em] text-[var(--color-muted)]">
+    <div className="border-t border-black/10 pt-4">
+      <p className="font-mono text-[0.68rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
         {label}
       </p>
-      <p className="max-w-[24rem] font-medium leading-7 text-[var(--color-soft)]">{value}</p>
+      <p className="mt-3 max-w-[22rem] text-[0.95rem] font-medium leading-7 text-[var(--color-soft)]">{value}</p>
     </div>
   );
 }
@@ -208,24 +208,25 @@ function NarrativeLead({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-t border-black/8 py-14 sm:py-16">
-      <div className="grid gap-6 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-10">
-        <p className="pt-1 font-mono text-[0.76rem] uppercase tracking-[0.22em] text-[var(--color-muted)]">
-          {eyebrow}
-        </p>
-
-        <div className="max-w-[52rem] space-y-8">
-          <h2 className="max-w-[11ch] font-display text-[clamp(3rem,5vw,5.6rem)] font-semibold leading-[0.9] tracking-[-0.08em] text-[var(--color-ink)]">
+    <section className="border-y border-black/8 py-12 sm:py-16">
+      <div className="grid gap-10 xl:grid-cols-[minmax(0,0.9fr)_minmax(26rem,0.82fr)] xl:items-start xl:gap-16">
+        <div className="space-y-5">
+          <p className="font-mono text-[0.72rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+            {eyebrow}
+          </p>
+          <h2 className="max-w-[12ch] font-display text-[clamp(3.2rem,6vw,6.7rem)] font-semibold leading-[0.86] tracking-[-0.085em] text-[var(--color-ink)]">
             {title}
           </h2>
+        </div>
 
-          <div className="max-w-[46rem] border-l border-black/8 pl-6 sm:pl-8">
-            <div className="space-y-4 text-[1.03rem] leading-8 text-[var(--color-soft)] sm:text-[1.08rem] [&>p:first-child]:font-display [&>p:first-child]:text-[clamp(1.5rem,2.1vw,2rem)] [&>p:first-child]:font-medium [&>p:first-child]:leading-[1.16] [&>p:first-child]:tracking-[-0.05em] [&>p:first-child]:text-[var(--color-ink)]">
+        <div className="space-y-10 xl:pt-11">
+          <div className="border-l border-black/10 pl-6 sm:pl-8">
+            <div className="space-y-5 text-[1.02rem] leading-8 text-[var(--color-soft)] sm:text-[1.08rem] [&>p:first-child]:font-display [&>p:first-child]:text-[clamp(1.55rem,2.1vw,2.15rem)] [&>p:first-child]:font-medium [&>p:first-child]:leading-[1.16] [&>p:first-child]:tracking-[-0.055em] [&>p:first-child]:text-[var(--color-ink)]">
               {children}
             </div>
           </div>
 
-          <div className="grid gap-6 border-t border-black/8 pt-6 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-3">
             {meta.map((item) => (
               <LeadMeta key={item.label} label={item.label} value={item.value} />
             ))}
@@ -235,6 +236,30 @@ function NarrativeLead({
     </section>
   );
 }
+
+const experienceCaseStudyTitles: Record<ProjectItem["slug"], string> = {
+  seatrium: "Making Dense Security Data Easier To Read.",
+  zhealthy: "One Brand System Across Every Touchpoint.",
+  itrust: "Quiet Tools For Precise Technical Work.",
+};
+
+const archiveCaseStudyTitles: Record<string, string> = {
+  furnitect: "Shaping A Furniture Journey From Room To Checkout.",
+  "custom-shell-daemon": "A Terminal Project With Real Systems Weight.",
+  "hotel-booking-website": "Making Hotel Search Feel Faster And Clearer.",
+  meetpro: "A Meeting Flow Designed Around Less Friction.",
+  vibecheck: "A Social Product With A Sharper Visual Pulse.",
+  irisapp: "Turning Machine Learning Into A Readable Interface.",
+  "network-security-ai": "Making Security Signals Visible At A Glance.",
+  planq: "A Planning Tool Built Around Cleaner Decisions.",
+  "project-93": "A Small Game With A Stronger Sense Of Character.",
+  dishcover: "A Food Discovery Flow With More Appetite.",
+  "ascenda-hotel": "A Booking Experience With More Visual Confidence.",
+  notpong: "A Familiar Game Rebuilt With A Twist.",
+  "sora-landing-page": "A Landing Page Focused On First Impressions.",
+  "sftp-network-security": "A Network Tool Framed Around Control.",
+  "text-based-rpg": "A Tiny RPG Carried By Interaction And Tone.",
+};
 
 function ExperienceProjectPage({ project }: { project: ProjectItem }) {
   const projectIndex = projects.findIndex((item) => item.slug === project.slug);
@@ -281,7 +306,7 @@ function ExperienceProjectPage({ project }: { project: ProjectItem }) {
         <div className="pt-20 sm:pt-24">
           <NarrativeLead
             eyebrow="Case Study"
-            title="Built To Clarify What Matters."
+            title={experienceCaseStudyTitles[project.slug]}
             meta={[
               {
                 label: "Focus",
@@ -459,7 +484,7 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
         <div className="pt-20 sm:pt-24">
           <NarrativeLead
             eyebrow="Case Study"
-            title="A Smaller Build With A Clear Point Of View."
+            title={archiveCaseStudyTitles[project.slug] ?? "A Smaller Build With A Clear Point Of View."}
             meta={[
               {
                 label: "Focus",
