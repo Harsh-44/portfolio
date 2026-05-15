@@ -1,7 +1,6 @@
 import { AchievementsSection } from "@/app/_components/achievements-section";
 import { ArchiveProjectsSection } from "@/app/_components/archive-projects-section";
 import { AboutSection } from "@/app/_components/about-section";
-import { ContactSection } from "@/app/_components/contact-section";
 import { Hero } from "@/app/_components/hero";
 import { ProjectsSection } from "@/app/_components/projects-section";
 import { SiteFooter } from "@/app/_components/site-footer";
@@ -25,11 +24,10 @@ export default function Home() {
             <ArchiveProjectsSection />
             <AchievementsSection />
             <SkillsSection />
-            <ContactSection />
           </main>
         </div>
 
-        <div aria-hidden="true" className="h-svh" />
+        <div id="contact" aria-hidden="true" className="h-svh" />
       </div>
     </div>
   );

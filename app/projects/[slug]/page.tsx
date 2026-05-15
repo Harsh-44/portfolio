@@ -140,7 +140,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
           {children}
         </div>
 
-        <div aria-hidden="true" className="h-svh" />
+        <div id="contact" aria-hidden="true" className="h-svh" />
       </div>
     </div>
   );
