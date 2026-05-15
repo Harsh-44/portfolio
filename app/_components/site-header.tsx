@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const navItems = [
   { href: "#about", label: "About" },
@@ -93,6 +93,7 @@ export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
   const logoHref = hrefPrefix ? "/" : "#top";
   const [forceVisible, setForceVisible] = useState(false);
   const [footerActive, setFooterActive] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let frame = 0;
@@ -122,6 +123,26 @@ export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
       window.removeEventListener("resize", schedule);
     };
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
 
   const shouldForceVisible = forceVisible || footerActive;
 
@@ -190,7 +211,7 @@ export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
           <div className="justify-self-end">
             <a
               href={`${hrefPrefix}#contact`}
-              className="group hidden items-center pb-1 font-black uppercase tracking-[0.04em] text-white sm:inline-flex"
+              className="group hidden items-center pb-1 font-black uppercase tracking-[0.04em] text-white lg:inline-flex"
               style={{
                 gap: "calc(0.25rem + 0.2vw)",
                 fontSize: "calc(0.86rem + 0.28vw)",
@@ -220,9 +241,53 @@ export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
                 }}
               />
             </a>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen((current) => !current)}
+              className="inline-flex h-10 w-10 items-center justify-center text-white lg:hidden"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
         </div>
       </header>
+
+      <div
+        className={`fixed inset-0 z-40 bg-[#08080a]/96 text-white backdrop-blur-md transition-[opacity,visibility] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden ${
+          menuOpen ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <nav className="flex min-h-svh flex-col justify-center px-6 py-24">
+          <div className="space-y-3">
+            {[...navItems, { href: "#contact", label: "Contact" }].map((item, index) => (
+              <a
+                key={item.href}
+                href={`${hrefPrefix}${item.href}`}
+                onClick={() => setMenuOpen(false)}
+                className="block overflow-hidden font-display text-[clamp(3rem,14vw,5.8rem)] font-bold uppercase leading-[0.88] tracking-[-0.08em] text-white"
+              >
+                <span
+                  className="inline-block transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  style={{
+                    transform: menuOpen ? "translateY(0)" : "translateY(110%)",
+                    transitionDelay: menuOpen ? `${index * 70}ms` : "0ms",
+                  }}
+                >
+                  {item.label}
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-5 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-white/45">
+            <span>Portfolio</span>
+            <span>Menu</span>
+          </div>
+        </nav>
+      </div>
 
       <div
         aria-hidden="true"

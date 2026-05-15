@@ -36,6 +36,9 @@ export const metadata: Metadata = {
   title: "Harsh Hareendran Kallinkeel | Frontend Engineer & UI/UX Designer",
   description:
     "Portfolio website for Harsh Hareendran Kallinkeel, a UI/UX-focused frontend engineer in Singapore building polished, production-ready product experiences.",
+  icons: {
+    icon: "/icon.svg",
+  },
   keywords: [
     "Harsh Hareendran Kallinkeel",
     "Frontend Engineer",
