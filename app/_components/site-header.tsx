@@ -261,13 +261,13 @@ export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
         }`}
       >
         <nav className="flex min-h-svh flex-col justify-center px-6 py-24">
-          <div className="space-y-3">
+          <div className="space-y-4">
             {[...navItems, { href: "#contact", label: "Contact" }].map((item, index) => (
               <a
                 key={item.href}
                 href={`${hrefPrefix}${item.href}`}
                 onClick={() => setMenuOpen(false)}
-                className="block overflow-hidden font-display text-[clamp(3rem,14vw,5.8rem)] font-bold uppercase leading-[0.88] tracking-[-0.08em] text-white"
+                className="block overflow-hidden font-display text-[clamp(2.45rem,11vw,5.8rem)] font-bold uppercase leading-[0.9] tracking-[-0.07em] text-white"
               >
                 <span
                   className="inline-block transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
