@@ -464,7 +464,7 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70"
                   >
-                    Visit website
+                    {project.sourceLabel ?? "View project"}
                     <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)]" />
                   </Link>
                 ) : (

@@ -386,7 +386,7 @@ export const archiveProjects: ArchiveProjectItem[] = [
       "Marketing landing page study focused on layout rhythm, responsive polish, and product-led presentation.",
     stack: ["Vite", "React", "Tailwind CSS"],
     sourceLabel: "GitHub",
-    sourceHref: "https://github.com/Harsh-44/SaaS-Landing-Page",
+    sourceHref: "https://harsh-44.github.io/SaaS-Landing-Page/",
     detailIntro:
       "Sora Landing Page was a learning build used to sharpen modern marketing-page execution through composition, pacing, and section transitions.",
     challenge:
@@ -467,6 +467,9 @@ export const archiveProjects: ArchiveProjectItem[] = [
     heroSummary:
       "Reusable hospitality template balancing booking clarity, hierarchy, and a polished starting-point system.",
     stack: ["Figma", "Design Systems", "Template Design"],
+    sourceLabel: "Figma",
+    sourceHref:
+      "https://www.figma.com/community/file/1429845628830978013/ascenda-hotel-booking-website?q_id=0f21b0ce-2a92-4bb1-ba5f-31664f8ad3fb",
     detailIntro:
       "This template was designed as a reusable hospitality starting point, with the intent of balancing elegance, booking clarity, and straightforward adaptation.",
     challenge:
@@ -492,6 +495,9 @@ export const archiveProjects: ArchiveProjectItem[] = [
     heroSummary:
       "Component-led Figma template focused on cleaner systems thinking and stronger presentation rhythm.",
     stack: ["Figma", "Components", "UI Systems"],
+    sourceLabel: "Figma",
+    sourceHref:
+      "https://www.figma.com/community/file/1465764504857113183/saas-video-conferencing-platform-landing-page?q_id=bc26c743-af99-432a-8737-c4322523581a",
     detailIntro:
       "MeetPro was developed as a reusable Figma template with more attention on components, consistency, and a clearer UI rhythm.",
     challenge:
