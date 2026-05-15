@@ -1,0 +1,37 @@
+<svg width="1280" height="900" viewBox="0 0 1280 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="900" fill="#11131A"/>
+  <text x="44" y="72" fill="#F6F3EE" font-family="IBM Plex Mono, monospace" font-size="24" letter-spacing="5">PROJECT 93</text>
+  <text x="44" y="106" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2.5">PENGUIN SPECIES PREDICTION / MODEL COMPARISON</text>
+  <rect x="44" y="144" width="560" height="562" rx="14" fill="#0C0E14"/>
+  <text x="76" y="184" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="2.5">MODEL SCORES</text>
+  <rect x="76" y="220" width="496" height="100" rx="14" fill="#141824"/>
+  <text x="112" y="258" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2">SUPPORT VECTOR MACHINE</text>
+  <text x="112" y="294" fill="#7C3AED" font-family="IBM Plex Mono, monospace" font-size="52" font-weight="700">97.2%</text>
+  <rect x="76" y="348" width="496" height="100" rx="14" fill="#141824"/>
+  <text x="112" y="386" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2">LOGISTIC REGRESSION</text>
+  <text x="112" y="422" fill="#10B981" font-family="IBM Plex Mono, monospace" font-size="52" font-weight="700">95.6%</text>
+  <rect x="76" y="476" width="496" height="100" rx="14" fill="#141824"/>
+  <text x="112" y="514" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2">RANDOM FOREST CLASSIFIER</text>
+  <text x="112" y="550" fill="#F59E0B" font-family="IBM Plex Mono, monospace" font-size="52" font-weight="700">98.1%</text>
+  <text x="76" y="656" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2.3">COMPARE MODELS THROUGH LIVE SIDEBAR INPUTS</text>
+  <rect x="636" y="144" width="600" height="262" rx="14" fill="#F7F6F2"/>
+  <text x="670" y="184" fill="#7C3AED" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="2.5">PENGUIN FEATURES</text>
+  <line x1="706" y1="364" x2="706" y2="220" stroke="#BDB7AA" stroke-width="2"/>
+  <line x1="706" y1="364" x2="1130" y2="364" stroke="#BDB7AA" stroke-width="2"/>
+  <circle cx="780" cy="330" r="10" fill="#7C3AED"/>
+  <circle cx="828" cy="298" r="10" fill="#8B5CF6"/>
+  <circle cx="876" cy="272" r="10" fill="#10B981"/>
+  <circle cx="944" cy="244" r="10" fill="#34D399"/>
+  <circle cx="1020" cy="206" r="10" fill="#F59E0B"/>
+  <circle cx="1090" cy="176" r="10" fill="#FBBF24"/>
+  <rect x="636" y="444" width="600" height="262" rx="14" fill="#141824"/>
+  <text x="670" y="484" fill="#8F8B84" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="2.5">CLASSIFICATION HEATMAP</text>
+  <rect x="742" y="528" width="74" height="74" fill="#DDD6FE"/>
+  <rect x="826" y="528" width="74" height="74" fill="#C4B5FD"/>
+  <rect x="910" y="528" width="74" height="74" fill="#8B5CF6"/>
+  <rect x="994" y="528" width="74" height="74" fill="#A7F3D0"/>
+  <rect x="742" y="612" width="74" height="74" fill="#C4B5FD"/>
+  <rect x="826" y="612" width="74" height="74" fill="#A78BFA"/>
+  <rect x="910" y="612" width="74" height="74" fill="#7C3AED"/>
+  <rect x="994" y="612" width="74" height="74" fill="#22C55E"/>
+</svg>
