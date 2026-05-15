@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FaFigma, FaGithub, FaLinkedinIn } from "react-icons/fa6";
 
 function formatSingaporeTime(date: Date) {
   return new Intl.DateTimeFormat("en-SG", {
@@ -12,56 +13,132 @@ function formatSingaporeTime(date: Date) {
   }).format(date);
 }
 
-export function SiteFooter() {
-  const [singaporeTime, setSingaporeTime] = useState(() =>
-    formatSingaporeTime(new Date()),
+function StaticName({ text }: { text: string }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const measureRef = useRef<HTMLParagraphElement | null>(null);
+  const [fontSize, setFontSize] = useState(0);
+
+  useLayoutEffect(() => {
+    const base = 300;
+
+    const update = () => {
+      if (!containerRef.current || !measureRef.current) return;
+      const containerWidth = containerRef.current.getBoundingClientRect().width;
+      const textWidth = measureRef.current.getBoundingClientRect().width;
+      if (containerWidth && textWidth) {
+        setFontSize((containerWidth / textWidth) * base);
+      }
+    };
+
+    update();
+
+    const resizeObserver = new ResizeObserver(update);
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    if (measureRef.current) resizeObserver.observe(measureRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [text]);
+
+  return (
+    <div ref={containerRef} className="w-full">
+      <p
+        ref={measureRef}
+        className="absolute whitespace-nowrap font-display font-black uppercase tracking-[-0.14em] opacity-0"
+        style={{ fontSize: "300px" }}
+      >
+        {text}
+      </p>
+
+      <p
+        className="whitespace-nowrap font-display font-black uppercase tracking-[-0.14em] text-white"
+        style={{
+          fontSize: `${fontSize}px`,
+          lineHeight: 0.82,
+        }}
+      >
+        {text}
+      </p>
+    </div>
   );
-  const footerName = "Harsh Hareendran";
-  const socialLinks = [
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "GitHub", href: "https://github.com/Harsh-44" },
-    { label: "Figma", href: "https://www.figma.com/" },
-  ];
+}
+
+export function SiteFooter() {
+  const [time, setTime] = useState(formatSingaporeTime(new Date()));
 
   useEffect(() => {
-    const interval = window.setInterval(() => {
-      setSingaporeTime(formatSingaporeTime(new Date()));
+    const i = setInterval(() => {
+      setTime(formatSingaporeTime(new Date()));
     }, 1000);
-
-    return () => {
-      window.clearInterval(interval);
-    };
+    return () => clearInterval(i);
   }, []);
 
   return (
-    <footer className="border-t border-black/8 px-4 py-6 text-sm text-[var(--color-muted)] sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-[110rem] flex-col gap-8">
-        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex flex-col gap-3">
-            <p className="font-mono uppercase tracking-[0.14em] text-[var(--color-soft)]">
-              Singapore: {singaporeTime}
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              {socialLinks.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono uppercase tracking-[0.14em] text-[var(--color-soft)] transition-opacity duration-200 ease-out hover:opacity-60"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </div>
+    <footer className="flex min-h-[100svh] w-full flex-col bg-black text-white">
+      <div
+        className="mx-auto flex w-full max-w-[110rem] items-center justify-between pb-8 pt-24"
+        style={{
+          paddingInline: "calc(1rem + 0.8vw)",
+        }}
+      >
+        <div className="flex gap-5">
+          <a href="#" className="opacity-60 transition-opacity hover:opacity-100">
+            <FaLinkedinIn size={18} />
+          </a>
+          <a href="#" className="opacity-60 transition-opacity hover:opacity-100">
+            <FaGithub size={18} />
+          </a>
+          <a href="#" className="opacity-60 transition-opacity hover:opacity-100">
+            <FaFigma size={18} />
+          </a>
         </div>
 
-        <div className="w-full">
-          <p className="whitespace-nowrap font-display text-[clamp(2.05rem,7.1vw,11rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-[var(--color-soft)]">
-            {footerName}
-          </p>
+        <p className="font-mono text-sm uppercase tracking-[0.14em] opacity-60">
+          Singapore - {time}
+        </p>
+      </div>
+
+      <div
+        className="mx-auto flex w-full max-w-[110rem] flex-1 flex-col justify-center py-8"
+        style={{
+          paddingInline: "calc(1rem + 0.8vw)",
+        }}
+      >
+        <div className="w-full overflow-hidden">
+          <StaticName text="HARSH" />
         </div>
+
+        <div className="mt-8 flex w-full items-center justify-between">
+          <a
+            href="mailto:harshhareendran58@gmail.com"
+            className="text-lg font-medium transition-opacity hover:opacity-70 md:text-xl"
+          >
+            harshhareendran58@gmail.com
+          </a>
+
+          <a
+            href="tel:+6580632846"
+            className="font-mono text-lg tracking-wide opacity-70 transition-opacity hover:opacity-100 md:text-xl"
+          >
+            +65 80632846
+          </a>
+        </div>
+      </div>
+
+      <div
+        className="mx-auto flex w-full max-w-[110rem] items-end justify-between py-8"
+        style={{
+          paddingInline: "calc(1rem + 0.8vw)",
+        }}
+      >
+        <div className="text-sm leading-relaxed opacity-60">
+          <p>103 Potong Pasir Ave 1</p>
+          <p>Singapore 350103</p>
+        </div>
+
+        <p className="flex items-center gap-2 text-sm opacity-60">
+          <span className="h-2 w-2 rounded-full bg-green-400" />
+          Available for work
+        </p>
       </div>
     </footer>
   );
