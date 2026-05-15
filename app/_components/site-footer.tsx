@@ -93,12 +93,12 @@ export function SiteFooter() {
   return (
     <footer className="flex min-h-[100svh] w-full flex-col bg-black text-white">
       <div
-        className="mx-auto flex w-full max-w-[110rem] flex-col gap-5 pb-8 pt-20 sm:flex-row sm:items-center sm:justify-between sm:pt-24"
+        className="mx-auto flex w-full max-w-[110rem] items-center justify-between gap-4 pb-8 pt-20 sm:pt-24"
         style={{
           paddingInline: "calc(1rem + 0.8vw)",
         }}
       >
-        <div className="flex gap-5">
+        <div className="flex shrink-0 gap-4 sm:gap-5">
           {socialLinks.map(({ href, label, Icon }) => (
             <a
               key={label}
@@ -113,7 +113,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <p className="text-center font-mono text-xs uppercase tracking-[0.12em] opacity-60 sm:text-left sm:text-sm sm:tracking-[0.14em]">
+        <p className="text-right font-mono text-[0.68rem] uppercase tracking-[0.08em] opacity-60 sm:text-sm sm:tracking-[0.14em]">
           Singapore - {time}
         </p>
       </div>
@@ -146,17 +146,17 @@ export function SiteFooter() {
       </div>
 
       <div
-        className="mx-auto flex w-full max-w-[110rem] flex-col gap-5 py-8 sm:flex-row sm:items-end sm:justify-between"
+        className="mx-auto flex w-full max-w-[110rem] items-end justify-between gap-4 py-8"
         style={{
           paddingInline: "calc(1rem + 0.8vw)",
         }}
       >
-        <div className="text-sm leading-relaxed opacity-60">
+        <div className="text-[0.72rem] leading-relaxed opacity-60 sm:text-sm">
           <p>103 Potong Pasir Ave 1</p>
           <p>Singapore 350103</p>
         </div>
 
-        <p className="flex items-center gap-2 text-sm opacity-60">
+        <p className="flex shrink-0 items-center gap-2 text-right text-[0.72rem] opacity-60 sm:text-sm">
           <span className="h-2 w-2 rounded-full bg-green-400" />
           Available for work
         </p>

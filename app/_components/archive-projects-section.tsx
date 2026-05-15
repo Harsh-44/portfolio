@@ -215,7 +215,7 @@ function WaveHeading({
   const center = (characters.length - 1) / 2;
 
   return (
-    <h2 className="inline-block pr-[0.08em] font-display text-[clamp(2.6rem,6vw,6.4rem)] font-black uppercase leading-[0.9] tracking-[-0.08em] text-white">
+    <h2 className="inline-block pr-[0.08em] font-display text-[clamp(2.15rem,10vw,6.4rem)] font-black uppercase leading-[0.9] tracking-[-0.07em] text-white sm:tracking-[-0.08em]">
       {characters.map((character, index) => {
         const delay = Math.abs(index - center) * 0.05;
         const charProgress = clamp((progress - delay) / (1 - delay), 0, 1);
@@ -590,9 +590,9 @@ export function ArchiveProjectsSection() {
               <WaveHeading text="Projects" progress={headingProgress} />
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2 sm:items-end">
+            <div className="grid grid-cols-2 items-end gap-4 sm:gap-6">
               <div
-                className="relative justify-self-center text-left sm:justify-self-start sm:self-end"
+                className="relative justify-self-start text-left self-end"
                 style={getRevealStyle(headingProgress, 0.16, 22)}
               >
                 <p className="mb-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-white/34">
@@ -654,7 +654,7 @@ export function ArchiveProjectsSection() {
               </div>
 
               <div
-                className="justify-self-center text-right sm:justify-self-end sm:self-start"
+                className="justify-self-end text-right self-start"
                 style={getRevealStyle(headingProgress, 0.24, 22)}
               >
                 {filterMode === "All" ? (
@@ -662,7 +662,7 @@ export function ArchiveProjectsSection() {
                     <p className="mb-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-white/34">
                       Sort
                     </p>
-                    <div className="flex flex-wrap items-center justify-center gap-2 font-display text-[0.95rem] font-bold uppercase tracking-[-0.02em] text-white/88 sm:justify-end">
+                    <div className="flex flex-wrap items-center justify-end gap-2 font-display text-[0.95rem] font-bold uppercase tracking-[-0.02em] text-white/88">
                       {sortOptions.map((option) => {
                         const isActive = option.value === sortMode;
 
