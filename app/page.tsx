@@ -15,8 +15,8 @@ export default function Home() {
         <SiteFooter />
       </div>
 
-      <div className="relative z-10 -mt-[100svh]">
-        <div className="bg-[var(--color-canvas)]">
+      <div className="pointer-events-none relative z-10 -mt-[100svh]">
+        <div className="pointer-events-auto bg-[var(--color-canvas)]">
           <SiteHeader />
           <main className="mx-auto flex min-h-screen w-full max-w-[110rem] flex-col px-4 pb-20 pt-4 sm:px-6 lg:px-8">
             <Hero />

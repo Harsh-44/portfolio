@@ -134,8 +134,8 @@ function PageShell({ children }: { children: React.ReactNode }) {
         <SiteFooter />
       </div>
 
-      <div className="relative z-10 -mt-[100svh]">
-        <div className="min-h-screen bg-[var(--color-canvas)] text-[var(--color-text)]">
+      <div className="pointer-events-none relative z-10 -mt-[100svh]">
+        <div className="pointer-events-auto min-h-screen bg-[var(--color-canvas)] text-[var(--color-text)]">
           <SiteHeader hrefPrefix="/" />
           {children}
         </div>
