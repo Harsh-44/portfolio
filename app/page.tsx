@@ -29,7 +29,7 @@ export default function Home() {
           </main>
         </div>
 
-        <div id="contact" aria-hidden="true" className="h-svh" />
+        <div id="contact" aria-hidden="true" className="pointer-events-none h-svh" />
       </div>
     </div>
   );

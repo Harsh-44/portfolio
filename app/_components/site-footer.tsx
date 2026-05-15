@@ -98,7 +98,7 @@ export function SiteFooter() {
           paddingInline: "calc(1rem + 0.8vw)",
         }}
       >
-        <div className="flex shrink-0 gap-4 sm:gap-5">
+        <div className="relative z-10 flex shrink-0 gap-4 sm:gap-5">
           {socialLinks.map(({ href, label, Icon }) => (
             <a
               key={label}
@@ -106,7 +106,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label={label}
-              className="opacity-60 transition-opacity hover:opacity-100"
+              className="inline-flex h-9 w-9 items-center justify-center opacity-60 transition-opacity hover:opacity-100"
             >
               <Icon size={18} />
             </a>
@@ -131,14 +131,14 @@ export function SiteFooter() {
         <div className="mt-8 flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <a
             href="mailto:harshhareendran58@gmail.com"
-            className="break-all text-base font-medium transition-opacity hover:opacity-70 md:text-xl"
+            className="relative z-10 break-all text-base font-medium transition-opacity hover:opacity-70 md:text-xl"
           >
             harshhareendran58@gmail.com
           </a>
 
           <a
             href="tel:+6580632846"
-            className="font-mono text-base tracking-wide opacity-70 transition-opacity hover:opacity-100 md:text-xl"
+            className="relative z-10 font-mono text-base tracking-wide opacity-70 transition-opacity hover:opacity-100 md:text-xl"
           >
             +65 80632846
           </a>
