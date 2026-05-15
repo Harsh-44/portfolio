@@ -12,11 +12,11 @@ export function SmoothScroll() {
     }
 
     const lenis = new Lenis({
-      duration: 0.5,
+      duration: 0.85,
       smoothWheel: true,
-      wheelMultiplier: 0.3,
+      wheelMultiplier: 1.18,
       touchMultiplier: 1,
-      easing: (t: number) => 1 - Math.pow(1 - t, 4),
+      overscroll: true,
     });
 
     const raf = (time: number) => {
@@ -50,7 +50,7 @@ export function SmoothScroll() {
       event.preventDefault();
       lenis.scrollTo(destination, {
         offset: -80,
-        duration: 1.8,
+        duration: 1.2,
       });
       window.history.pushState(null, "", hash);
     };

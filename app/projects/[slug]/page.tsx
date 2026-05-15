@@ -1,16 +1,70 @@
 import type { Metadata } from "next";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { ProjectVisual } from "@/app/_components/project-visual";
 import { SiteFooter } from "@/app/_components/site-footer";
 import { SiteHeader } from "@/app/_components/site-header";
-import { getProjectBySlug, projects } from "@/app/_data/portfolio";
+import {
+  archiveProjects,
+  getProjectBySlug,
+  projects,
+  type ArchiveProjectItem,
+  type ProjectItem,
+} from "@/app/_data/portfolio";
+import ascendaImage from "@/app/assets/images/projects/ascenda.png";
+import ascendaFigmaImage from "@/app/assets/images/projects/ascendafigma.png";
+import customshellImage from "@/app/assets/images/projects/customshell.png";
+import dishcoverImage from "@/app/assets/images/projects/dishcover.png";
+import framerImage from "@/app/assets/images/projects/framer.jpeg";
+import furnitectImage from "@/app/assets/images/projects/furnitect.png";
+import irisAppMlImage from "@/app/assets/images/projects/irisapp_ml.svg";
+import meetproImage from "@/app/assets/images/projects/meetpro.png";
+import networkSecurityAiHeatmapImage from "@/app/assets/images/projects/network_security_ai_heatmap.svg";
+import planqImage from "@/app/assets/images/projects/planq.png";
+import pongImage from "@/app/assets/images/projects/pong.png";
+import project93PenguinImage from "@/app/assets/images/projects/project93_penguin.svg";
+import rpgImage from "@/app/assets/images/projects/rpg.png";
+import soraLandingImage from "@/app/assets/images/projects/sora_landing.png";
+import sftpImage from "@/app/assets/images/projects/sftp.png";
+
+const archiveProjectImages: Record<string, StaticImageData> = {
+  furnitect: furnitectImage,
+  "custom-shell-daemon": customshellImage,
+  "hotel-booking-website": ascendaFigmaImage,
+  meetpro: meetproImage,
+  vibecheck: framerImage,
+  irisapp: irisAppMlImage,
+  "network-security-ai": networkSecurityAiHeatmapImage,
+  planq: planqImage,
+  "project-93": project93PenguinImage,
+  dishcover: dishcoverImage,
+  "ascenda-hotel": ascendaImage,
+  notpong: pongImage,
+  "sora-landing-page": soraLandingImage,
+  "sftp-network-security": sftpImage,
+  "text-based-rpg": rpgImage,
+};
+
+const whiteFrameArchiveProjects = new Set([
+  "custom-shell-daemon",
+  "sftp-network-security",
+  "text-based-rpg",
+  "notpong",
+]);
+
+const containArchiveProjects = new Set([
+  "irisapp",
+  "project-93",
+  "network-security-ai",
+]);
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return [
+    ...projects.map((project) => ({ slug: project.slug })),
+    ...archiveProjects.map((project) => ({ slug: project.slug })),
+  ];
 }
 
 export async function generateMetadata({
@@ -21,13 +75,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  if (!project) {
+  if (project) {
+    return {
+      title: `${project.title} | Harsh Hareendran`,
+      description: project.description,
+    };
+  }
+
+  const archiveProject = getArchiveProjectBySlug(slug);
+
+  if (!archiveProject) {
     return {};
   }
 
   return {
-    title: `${project.title} | Harsh Hareendran`,
-    description: project.description,
+    title: `${archiveProject.title} | Harsh Hareendran`,
+    description: archiveProject.description,
   };
 }
 
@@ -39,175 +102,459 @@ export default async function ProjectPage({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  if (!project) {
+  if (project) {
+    return <ExperienceProjectPage project={project} />;
+  }
+
+  const archiveProject = getArchiveProjectBySlug(slug);
+
+  if (!archiveProject) {
     notFound();
   }
 
-  const projectIndex = projects.findIndex((item) => item.slug === project.slug);
-  const nextProject = projects[(projectIndex + 1) % projects.length];
+  return <ArchiveProjectPage project={archiveProject} />;
+}
 
+function PageShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-[var(--color-canvas)] text-[var(--color-text)]">
-      <SiteHeader hrefPrefix="/" />
+    <div className="relative overflow-x-clip bg-black">
+      <div className="sticky top-0 h-svh">
+        <SiteFooter />
+      </div>
 
-      <main className="mx-auto flex w-full max-w-[110rem] flex-col gap-18 px-4 pb-20 pt-4 sm:px-6 lg:px-8">
-        <section className="space-y-8 pt-12 sm:space-y-10 sm:pt-16">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,32rem)] lg:items-start lg:gap-10">
-            <div className="space-y-6 sm:space-y-8">
-              <Link
-                href="/#projects"
-                className="inline-flex items-center gap-2 font-mono text-[0.78rem] uppercase tracking-[0.16em] text-[var(--color-muted)] transition-opacity duration-200 ease-out hover:opacity-60"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Projects
-              </Link>
+      <div className="relative z-10 -mt-[100svh]">
+        <div className="min-h-screen bg-[var(--color-canvas)] text-[var(--color-text)]">
+          <SiteHeader hrefPrefix="/" />
+          {children}
+        </div>
 
-              <div className="space-y-4">
-                <p className="font-mono text-[0.82rem] uppercase tracking-[0.18em] text-[var(--color-accent-strong)]">
-                  {project.label}
-                </p>
-                <h1 className="max-w-[11ch] font-display text-[clamp(3.8rem,6.8vw,8rem)] font-black uppercase leading-[0.88] tracking-[-0.08em] text-[var(--color-ink)]">
-                  {project.title}
-                </h1>
-              </div>
+        <div aria-hidden="true" className="h-svh" />
+      </div>
+    </div>
+  );
+}
 
-              <p className="max-w-[52rem] text-[1.02rem] leading-8 text-[var(--color-soft)] sm:text-[1.1rem] sm:leading-9">
-                {project.detailIntro}
-              </p>
+function withTrailingPeriod(text: string) {
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
 
-              <div className="flex flex-wrap gap-2 pt-1">
-                {project.stack.map((item) => (
-                  <span
-                    key={item}
-                    className="pill rounded-full px-4 py-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--color-soft)]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
+function DetailMeta({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <p className="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
+        {label}
+      </p>
+      <div className="font-semibold text-[1rem] leading-7 text-[var(--color-soft)]">{value}</div>
+    </div>
+  );
+}
 
-            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="surface-panel p-4">
-                <p className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-muted)]">
-                  Year
-                </p>
-                <p className="mt-2 font-display text-[1.5rem] font-bold uppercase tracking-[-0.05em] text-[var(--color-soft)]">
-                  {project.year}
-                </p>
-              </div>
-              <div className="surface-panel p-4 sm:col-span-2 lg:col-span-1">
-                <p className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-muted)]">
-                  Role
-                </p>
-                <p className="mt-2 text-sm leading-7 text-[var(--color-soft)] sm:text-base">
-                  {project.role}
-                </p>
-              </div>
+function ContentBlock({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="border-t border-black/8 py-12 sm:py-14">
+      <div className="grid gap-5 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-10">
+        <h2 className="pt-2 font-mono text-[0.9rem] font-medium uppercase tracking-[0.24em] text-[var(--color-accent)]">
+          /{title}
+        </h2>
+
+        <div className="max-w-[48rem] border-l border-black/8 pl-6 sm:pl-8">
+          <div className="space-y-4 text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.03rem] [&>p:first-child]:font-display [&>p:first-child]:text-[clamp(1.45rem,2vw,1.9rem)] [&>p:first-child]:font-medium [&>p:first-child]:leading-[1.16] [&>p:first-child]:tracking-[-0.05em] [&>p:first-child]:text-[var(--color-ink)]">
+            {children}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LeadMeta({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="border-t border-black/10 pt-4">
+      <p className="font-mono text-[0.68rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
+        {label}
+      </p>
+      <p className="mt-3 max-w-[22rem] text-[0.95rem] font-medium leading-7 text-[var(--color-soft)]">{value}</p>
+    </div>
+  );
+}
+
+function NarrativeLead({
+  eyebrow,
+  title,
+  meta,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  meta: Array<{ label: string; value: string }>;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="border-y border-black/8 py-12 sm:py-16">
+      <div className="grid gap-10 xl:grid-cols-[minmax(0,0.9fr)_minmax(26rem,0.82fr)] xl:items-start xl:gap-16">
+        <div className="space-y-5">
+          <p className="font-mono text-[0.72rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+            {eyebrow}
+          </p>
+          <h2 className="max-w-[12ch] font-display text-[clamp(3.2rem,6vw,6.7rem)] font-semibold leading-[0.86] tracking-[-0.085em] text-[var(--color-ink)]">
+            {title}
+          </h2>
+        </div>
+
+        <div className="space-y-10 xl:pt-11">
+          <div className="border-l border-black/10 pl-6 sm:pl-8">
+            <div className="space-y-5 text-[1.02rem] leading-8 text-[var(--color-soft)] sm:text-[1.08rem] [&>p:first-child]:font-display [&>p:first-child]:text-[clamp(1.55rem,2.1vw,2.15rem)] [&>p:first-child]:font-medium [&>p:first-child]:leading-[1.16] [&>p:first-child]:tracking-[-0.055em] [&>p:first-child]:text-[var(--color-ink)]">
+              {children}
             </div>
           </div>
 
-          <div className="overflow-hidden bg-[#0d0f13] p-2 sm:p-3">
-            <div className="aspect-[1.4/1]">
+          <div className="grid gap-5 sm:grid-cols-3">
+            {meta.map((item) => (
+              <LeadMeta key={item.label} label={item.label} value={item.value} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const experienceCaseStudyTitles: Record<ProjectItem["slug"], string> = {
+  seatrium: "Making Dense Security Data Easier To Read.",
+  zhealthy: "One Brand System Across Every Touchpoint.",
+  itrust: "Quiet Tools For Precise Technical Work.",
+};
+
+const archiveCaseStudyTitles: Record<string, string> = {
+  furnitect: "Shaping A Furniture Journey From Room To Checkout.",
+  "custom-shell-daemon": "A Terminal Project With Real Systems Weight.",
+  "hotel-booking-website": "Making Hotel Search Feel Faster And Clearer.",
+  meetpro: "A Meeting Flow Designed Around Less Friction.",
+  vibecheck: "A Social Product With A Sharper Visual Pulse.",
+  irisapp: "Turning Machine Learning Into A Readable Interface.",
+  "network-security-ai": "Making Security Signals Visible At A Glance.",
+  planq: "A Planning Tool Built Around Cleaner Decisions.",
+  "project-93": "A Small Game With A Stronger Sense Of Character.",
+  dishcover: "A Food Discovery Flow With More Appetite.",
+  "ascenda-hotel": "A Booking Experience With More Visual Confidence.",
+  notpong: "A Familiar Game Rebuilt With A Twist.",
+  "sora-landing-page": "A Landing Page Focused On First Impressions.",
+  "sftp-network-security": "A Network Tool Framed Around Control.",
+  "text-based-rpg": "A Tiny RPG Carried By Interaction And Tone.",
+};
+
+function ExperienceProjectPage({ project }: { project: ProjectItem }) {
+  const projectIndex = projects.findIndex((item) => item.slug === project.slug);
+  const previousProject = projects[(projectIndex - 1 + projects.length) % projects.length];
+  const nextProject = projects[(projectIndex + 1) % projects.length];
+
+  return (
+    <PageShell>
+      <main className="mx-auto w-full max-w-[110rem] px-4 pb-20 pt-8 sm:px-6 lg:px-8">
+        <section className="flex min-h-[55svh] flex-col justify-between pt-2">
+          <Link
+            href="/#experiences"
+            className="inline-flex items-center gap-2 font-medium text-[var(--color-muted)] transition-opacity duration-200 ease-out hover:opacity-70"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Link>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,29rem)] lg:items-end lg:gap-10">
+            <h1 className="max-w-[10ch] font-display text-[clamp(4.2rem,8vw,9rem)] font-bold leading-[0.88] tracking-[-0.09em] text-[var(--color-ink)] mb-3">
+              {withTrailingPeriod(project.title)}
+            </h1>
+            <p className="max-w-[29rem] text-[1rem] font-bold leading-8 text-[var(--color-muted)] sm:text-[1.03rem]">
+              {project.heroSummary}
+            </p>
+          </div>
+
+          <div className="grid gap-8 pt-6 sm:grid-cols-2 xl:grid-cols-4 xl:items-end xl:justify-between">
+            <DetailMeta label="Type" value={project.label} />
+            <DetailMeta label="Role" value={project.role} />
+            <DetailMeta label="Skills" value={project.stack.slice(0, 2).join(", ")} />
+            <DetailMeta label="Year" value={project.year} />
+          </div>
+        </section>
+
+        <section className="pt-4">
+          <div className="overflow-hidden">
+            <div className="aspect-[1.55/1]">
               <ProjectVisual project={project} />
             </div>
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(18rem,0.34fr)_minmax(0,1fr)] lg:gap-12">
-          <div className="space-y-2">
-            <p className="font-mono text-[0.78rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Challenge
-            </p>
-            <div className="section-rule max-w-[9rem]" />
-          </div>
-          <div className="surface-panel p-6 sm:p-8">
-            <p className="max-w-[56rem] text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.06rem] sm:leading-9">
-              {project.challenge}
-            </p>
-          </div>
-        </section>
+        <div className="pt-20 sm:pt-24">
+          <NarrativeLead
+            eyebrow="Case Study"
+            title={experienceCaseStudyTitles[project.slug]}
+            meta={[
+              {
+                label: "Focus",
+                value: "Hierarchy, usability, and decision-ready interface design.",
+              },
+              {
+                label: "Medium",
+                value: "Product UI translated from Figma into production frontend.",
+              },
+              { label: "Context", value: project.label },
+            ]}
+          >
+            <p>{project.description}</p>
+            <p>{project.detailIntro}</p>
+          </NarrativeLead>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(18rem,0.34fr)_minmax(0,1fr)] lg:gap-12">
-          <div className="space-y-2">
-            <p className="font-mono text-[0.78rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Approach
-            </p>
-            <div className="section-rule max-w-[9rem]" />
-          </div>
-          <div className="grid gap-4">
-            {project.approach.map((item, index) => (
-              <article key={item} className="surface-panel p-6 sm:p-8">
-                <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-[var(--color-accent-strong)]">
-                  0{index + 1}
-                </p>
-                <p className="mt-3 text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.04rem] sm:leading-9">
-                  {item}
-                </p>
-              </article>
+          <ContentBlock title="challenge">
+            <p>{project.challenge}</p>
+          </ContentBlock>
+
+          <ContentBlock title="approach">
+            {project.approach.map((item) => (
+              <p key={item}>{item}</p>
             ))}
-          </div>
-        </section>
+          </ContentBlock>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(18rem,0.34fr)_minmax(0,1fr)] lg:gap-12">
-          <div className="space-y-2">
-            <p className="font-mono text-[0.78rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Impact
-            </p>
-            <div className="section-rule max-w-[9rem]" />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <ContentBlock title="impact">
             {project.impact.map((item) => (
-              <article key={item} className="surface-panel p-5 sm:p-6">
-                <p className="text-sm leading-7 text-[var(--color-soft)] sm:text-base sm:leading-8">
-                  {item}
-                </p>
-              </article>
+              <p key={item}>{item}</p>
             ))}
-          </div>
-        </section>
+            {project.confidentialityNote ? <p>{project.confidentialityNote}</p> : null}
+          </ContentBlock>
+        </div>
 
-        {project.confidentialityNote ? (
-          <section className="grid gap-6 lg:grid-cols-[minmax(18rem,0.34fr)_minmax(0,1fr)] lg:gap-12">
+        <section className="mt-20 border-t border-black/8 pt-8 sm:mt-24">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-end">
             <div className="space-y-2">
-              <p className="font-mono text-[0.78rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
-                Visibility
+              <p className="font-mono text-[0.74rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                Previous
               </p>
-              <div className="section-rule max-w-[9rem]" />
+              <Link
+                href={`/projects/${previousProject.slug}`}
+                className="inline-flex items-center gap-2 text-[clamp(1.6rem,2.8vw,2.8rem)] leading-[0.94] tracking-[-0.05em] text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70"
+              >
+                <ArrowLeft className="h-4 w-4 text-[var(--color-accent)]" />
+                {previousProject.title}
+              </Link>
             </div>
-            <div className="accent-panel p-6 sm:p-8">
-              <p className="max-w-[48rem] text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.04rem] sm:leading-9">
-                {project.confidentialityNote}
-              </p>
-            </div>
-          </section>
-        ) : null}
 
-        <section className="border-t border-black/8 pt-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="space-y-2">
-              <p className="font-mono text-[0.78rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
-                Next Project
+            <div className="space-y-2 lg:text-right">
+              <p className="font-mono text-[0.74rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                Next
               </p>
               <Link
                 href={`/projects/${nextProject.slug}`}
-                className="font-display text-[clamp(2rem,4vw,4.4rem)] font-black uppercase leading-[0.92] tracking-[-0.07em] text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-60"
+                className="inline-flex items-center gap-2 text-[clamp(1.6rem,2.8vw,2.8rem)] leading-[0.94] tracking-[-0.05em] text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70 lg:ml-auto"
               >
                 {nextProject.title}
+                <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)]" />
               </Link>
             </div>
-            <Link
-              href={`/projects/${nextProject.slug}`}
-              className="inline-flex items-center gap-2 font-mono text-[0.86rem] uppercase tracking-[0.14em] text-[var(--color-soft)] transition-opacity duration-200 ease-out hover:opacity-60"
-            >
-              View Project
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
           </div>
         </section>
       </main>
+    </PageShell>
+  );
+}
 
-      <SiteFooter />
+function ArchiveProjectHeroImage({ project }: { project: ArchiveProjectItem }) {
+  const projectImage = archiveProjectImages[project.slug];
+
+  if (!projectImage) {
+    return (
+      <div className="relative aspect-[1.48/1] overflow-hidden bg-[linear-gradient(180deg,rgba(124,58,237,0.18),rgba(76,29,149,0.12)_55%,rgba(20,9,36,0.05))]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(192,132,252,0.25),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.18),transparent_42%)]" />
+      </div>
+    );
+  }
+
+  const isPortrait = projectImage.height > projectImage.width;
+  const hasWhiteFrame = whiteFrameArchiveProjects.has(project.slug);
+  const shouldContainImage = containArchiveProjects.has(project.slug);
+
+  return (
+    <div className={`relative overflow-hidden bg-black/[0.03] p-3 sm:p-4 ${isPortrait ? "mx-auto max-w-[42rem]" : ""}`}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ aspectRatio: `${projectImage.width} / ${projectImage.height}` }}
+      >
+        {hasWhiteFrame ? (
+          <div className="absolute inset-0 bg-[#f7f6f2]">
+            <div className="absolute inset-5">
+              <Image
+                src={projectImage}
+                alt={`${project.title} project image`}
+                fill
+                className="object-contain"
+                sizes="(max-width: 1024px) 100vw, 70vw"
+              />
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={projectImage}
+            alt={`${project.title} project image`}
+            fill
+            className={shouldContainImage ? "object-contain" : "object-cover object-top"}
+            sizes="(max-width: 1024px) 100vw, 70vw"
+          />
+        )}
+      </div>
     </div>
   );
+}
+
+function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
+  const projectIndex = archiveProjects.findIndex((item) => item.slug === project.slug);
+  const previousProject =
+    archiveProjects[(projectIndex - 1 + archiveProjects.length) % archiveProjects.length];
+  const nextProject = archiveProjects[(projectIndex + 1) % archiveProjects.length];
+
+  return (
+    <PageShell>
+      <main className="mx-auto w-full max-w-[110rem] px-4 pb-20 pt-8 sm:px-6 lg:px-8">
+        <section className="flex min-h-[68svh] flex-col justify-between gap-14 pt-2">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-2 font-medium text-[var(--color-muted)] transition-opacity duration-200 ease-out hover:opacity-70"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Link>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,29rem)] lg:items-end lg:gap-10">
+            <h1 className="max-w-[10ch] font-display text-[clamp(4.2rem,8vw,9rem)] font-semibold leading-[0.88] tracking-[-0.09em] text-[var(--color-ink)]">
+              {withTrailingPeriod(project.title)}
+            </h1>
+            <p className="max-w-[29rem] text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.03rem]">
+              {project.heroSummary}
+            </p>
+          </div>
+
+          <div className="grid gap-8 border-t border-black/8 pt-6 sm:grid-cols-2 xl:grid-cols-4 xl:items-end xl:justify-between">
+            <DetailMeta
+              label="Project"
+              value={project.kind}
+            />
+            <DetailMeta
+              label="View"
+              value={
+                project.sourceHref ? (
+                  <Link
+                    href={project.sourceHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70"
+                  >
+                    Visit website
+                    <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)]" />
+                  </Link>
+                ) : (
+                  "Archive"
+                )
+              }
+            />
+            <DetailMeta label="Services" value={project.stack.slice(0, 2).join(", ")} />
+            <DetailMeta label="Year" value={project.year} />
+          </div>
+        </section>
+
+        <section className="pt-4">
+          <ArchiveProjectHeroImage project={project} />
+        </section>
+
+        <div className="pt-20 sm:pt-24">
+          <NarrativeLead
+            eyebrow="Case Study"
+            title={archiveCaseStudyTitles[project.slug] ?? "A Smaller Build With A Clear Point Of View."}
+            meta={[
+              {
+                label: "Focus",
+                value: "Execution, clarity, and a distilled expression of the product idea.",
+              },
+              {
+                label: "Medium",
+                value: "Smaller-scope interface work shaped through layout, interaction, or system thinking.",
+              },
+              {
+                label: "Context",
+                value: project.kind,
+              },
+            ]}
+          >
+            <p>{project.description}</p>
+            <p>{project.detailIntro}</p>
+          </NarrativeLead>
+
+          <ContentBlock title="challenge">
+            <p>{project.challenge}</p>
+          </ContentBlock>
+
+          <ContentBlock title="approach">
+            {project.approach.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
+          </ContentBlock>
+
+          <ContentBlock title="outcome">
+            {project.outcomes.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
+          </ContentBlock>
+        </div>
+
+        <section className="mt-20 border-t border-black/8 pt-8 sm:mt-24">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-end">
+            <div className="space-y-2">
+              <p className="font-mono text-[0.74rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                Previous
+              </p>
+              <Link
+                href={`/projects/${previousProject.slug}`}
+                className="inline-flex items-center gap-2 text-[clamp(1.6rem,2.8vw,2.8rem)] leading-[0.94] tracking-[-0.05em] text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70"
+              >
+                <ArrowLeft className="h-4 w-4 text-[var(--color-accent)]" />
+                {previousProject.title}
+              </Link>
+            </div>
+
+            <div className="space-y-2 lg:text-right">
+              <p className="font-mono text-[0.74rem] uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                Next
+              </p>
+              <Link
+                href={`/projects/${nextProject.slug}`}
+                className="inline-flex items-center gap-2 text-[clamp(1.6rem,2.8vw,2.8rem)] leading-[0.94] tracking-[-0.05em] text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70 lg:ml-auto"
+              >
+                {nextProject.title}
+                <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)]" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+    </PageShell>
+  );
+}
+
+function getArchiveProjectBySlug(slug: string) {
+  return archiveProjects.find((project) => project.slug === slug);
 }
