@@ -199,7 +199,7 @@ function useScrollRevealProgress({
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, []);
+  }, [end, start]);
 
   return { ref, progress };
 }

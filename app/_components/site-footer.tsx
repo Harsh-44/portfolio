@@ -75,7 +75,7 @@ export function SiteFooter() {
   return (
     <footer className="flex min-h-[100svh] w-full flex-col bg-black text-white">
       <div
-        className="mx-auto flex w-full max-w-[110rem] items-center justify-between pb-8 pt-24"
+        className="mx-auto flex w-full max-w-[110rem] flex-col gap-5 pb-8 pt-20 sm:flex-row sm:items-center sm:justify-between sm:pt-24"
         style={{
           paddingInline: "calc(1rem + 0.8vw)",
         }}
@@ -92,7 +92,7 @@ export function SiteFooter() {
           </a>
         </div>
 
-        <p className="font-mono text-sm uppercase tracking-[0.14em] opacity-60">
+        <p className="text-center font-mono text-xs uppercase tracking-[0.12em] opacity-60 sm:text-left sm:text-sm sm:tracking-[0.14em]">
           Singapore - {time}
         </p>
       </div>
@@ -107,17 +107,17 @@ export function SiteFooter() {
           <StaticName text="HARSH" />
         </div>
 
-        <div className="mt-8 flex w-full items-center justify-between">
+        <div className="mt-8 flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <a
             href="mailto:harshhareendran58@gmail.com"
-            className="text-lg font-medium transition-opacity hover:opacity-70 md:text-xl"
+            className="break-all text-base font-medium transition-opacity hover:opacity-70 md:text-xl"
           >
             harshhareendran58@gmail.com
           </a>
 
           <a
             href="tel:+6580632846"
-            className="font-mono text-lg tracking-wide opacity-70 transition-opacity hover:opacity-100 md:text-xl"
+            className="font-mono text-base tracking-wide opacity-70 transition-opacity hover:opacity-100 md:text-xl"
           >
             +65 80632846
           </a>
@@ -125,7 +125,7 @@ export function SiteFooter() {
       </div>
 
       <div
-        className="mx-auto flex w-full max-w-[110rem] items-end justify-between py-8"
+        className="mx-auto flex w-full max-w-[110rem] flex-col gap-5 py-8 sm:flex-row sm:items-end sm:justify-between"
         style={{
           paddingInline: "calc(1rem + 0.8vw)",
         }}

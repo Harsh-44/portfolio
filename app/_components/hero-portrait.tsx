@@ -57,7 +57,7 @@ export function HeroPortrait({
   return (
     <div
       className="relative"
-      style={{ width: `${width}px` }}
+      style={{ width: `${width}px`, maxWidth: "100%" }}
     >
       <div
         className="absolute h-full w-full bg-black/4"

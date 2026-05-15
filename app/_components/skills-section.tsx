@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { skillGroups } from "@/app/_data/portfolio";
 
 const skillGroupDescriptions: Record<string, string> = {
@@ -38,6 +38,9 @@ export function SkillsSection() {
             group={group}
             description={skillGroupDescriptions[group.title]}
             isActive={activeIndex === index}
+            onToggle={() =>
+              setActiveIndex((current) => (current === index ? null : index))
+            }
             onEnter={() => setActiveIndex(index)}
             onLeave={() => setActiveIndex(null)}
           />
@@ -51,26 +54,27 @@ function SkillItem({
   group,
   description,
   isActive,
+  onToggle,
   onEnter,
   onLeave,
 }: {
   group: (typeof skillGroups)[number];
   description: string;
   isActive: boolean;
+  onToggle: () => void;
   onEnter: () => void;
   onLeave: () => void;
 }) {
-  const contentRef = useRef<HTMLDivElement>(null);
-
   return (
     <article
+      onClick={onToggle}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      className="border-t border-black/10 py-6"
+      className="cursor-pointer border-t border-black/10 py-6"
     >
       <div className="grid gap-5 lg:grid-cols-[minmax(12rem,0.42fr)_minmax(0,1fr)] lg:gap-10">
         <div>
-          <p className="font-mono text-[0.9rem] uppercase tracking-[0.02em] text-[var(--color-accent-strong)]">
+          <p className="font-mono text-[0.78rem] uppercase tracking-[0.08em] text-[var(--color-accent-strong)] sm:text-[0.9rem] sm:tracking-[0.02em]">
             {group.title}
           </p>
         </div>
@@ -78,7 +82,7 @@ function SkillItem({
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="max-w-[48ch]">
-              <p className="text-[1.02rem] leading-8 text-[var(--color-muted)]">
+              <p className="text-[0.95rem] leading-7 text-[var(--color-muted)] sm:text-[1.02rem] sm:leading-8">
                 {description}
               </p>
             </div>
@@ -92,16 +96,15 @@ function SkillItem({
       </div>
 
       <div
-        className="overflow-hidden transition-[max-height,opacity,margin-top] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+        className="grid overflow-hidden transition-[grid-template-rows,opacity,margin-top] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
         style={{
-          maxHeight: isActive ? `${contentRef.current?.scrollHeight || 0}px` : "0rem",
+          gridTemplateRows: isActive ? "1fr" : "0fr",
           opacity: isActive ? 1 : 0,
           marginTop: isActive ? "1rem" : "0rem",
         }}
       >
         <div
-          ref={contentRef}
-          className="grid gap-3 pt-1 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] sm:grid-cols-2 xl:grid-cols-3"
+          className="grid min-h-0 gap-3 overflow-hidden pt-1 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] sm:grid-cols-2 xl:grid-cols-3"
           style={{
             transform: `translateY(${isActive ? 0 : -8}px)`,
             opacity: isActive ? 1 : 0.72,

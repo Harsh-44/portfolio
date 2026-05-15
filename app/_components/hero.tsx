@@ -26,26 +26,6 @@ function Word({
   );
 }
 
-function DeveloperWord({
-  wordClassName = "",
-  ampersandClassName = "",
-}: {
-  wordClassName?: string;
-  ampersandClassName?: string;
-}) {
-  return (
-    <span className="inline-flex flex-col items-start leading-none">
-      <span className={`inline-block ${ampersandClassName}`} aria-hidden="true">
-        &
-      </span>
-      <Word
-        text="Developer"
-        className={`text-white mix-blend-difference ${wordClassName}`}
-      />
-    </span>
-  );
-}
-
 export function Hero() {
   return (
     <section id="top">
@@ -53,29 +33,34 @@ export function Hero() {
         <div className="mt-8 md:hidden">
           <div className="space-y-6">
             <div className="space-y-2 text-center">
-              <h1 className="text-[3.1rem] font-black uppercase leading-[0.9] tracking-[-0.11em] text-white mix-blend-difference sm:text-[4.2rem]">
-                <Word text="Creative Designer" />
+              <h1 className="text-[clamp(3.35rem,18vw,4.2rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white mix-blend-difference sm:tracking-[-0.11em]">
+                <span className="block">
+                  <Word text="Creative" />
+                </span>
+                <span className="block">
+                  <Word text="Designer" />
+                </span>
               </h1>
-              <div className="flex items-start justify-center gap-3 sm:gap-4">
+              <div className="space-y-1 text-center">
                 <span
-                  className="text-[3rem] font-black uppercase leading-none tracking-[-0.11em] text-[var(--color-accent-strong)] sm:text-[4rem]"
+                  className="block text-[clamp(2.25rem,11vw,3rem)] font-black uppercase leading-none tracking-[-0.08em] text-[var(--color-accent-strong)]"
                   aria-hidden="true"
                 >
                   &
                 </span>
-                <h2 className="pt-[0.16em] text-[3rem] font-black uppercase leading-[0.82] tracking-[-0.11em] text-white mix-blend-difference sm:text-[4rem]">
+                <h2 className="text-[clamp(2.55rem,13vw,3.65rem)] font-black uppercase leading-[0.82] tracking-[-0.08em] text-white mix-blend-difference">
                   <Word text="Developer" />
                 </h2>
               </div>
             </div>
 
-            <p className="font-mono text-center text-[0.82rem] font-medium uppercase tracking-[0.44em] text-[var(--color-soft)] sm:text-[0.95rem]">
+            <p className="font-mono text-center text-[0.72rem] font-medium uppercase tracking-[0.26em] text-[var(--color-soft)] sm:text-[0.95rem] sm:tracking-[0.44em]">
               Based In Singapore
             </p>
           </div>
 
-          <div className="mt-8 flex items-end justify-center gap-4 sm:gap-6">
-            <div className="w-[10.75rem] shrink-0 sm:w-[13rem]">
+          <div className="mt-8 grid justify-items-center gap-5 sm:flex sm:items-end sm:justify-center sm:gap-6">
+            <div className="w-[min(72vw,11.5rem)] shrink-0 sm:w-[13rem]">
               <HeroPortrait
                 image={portrait}
                 alt="Portrait of Harsh Hareendran Kallinkeel"
@@ -84,11 +69,11 @@ export function Hero() {
               />
             </div>
 
-            <div className="min-w-0 space-y-3 text-right text-[var(--color-soft)]">
+            <div className="min-w-0 space-y-2 text-center text-[var(--color-soft)] sm:space-y-3 sm:text-right">
               {specialties.map((specialty) => (
                 <p
                   key={specialty}
-                  className="text-[1.2rem] font-semibold uppercase tracking-[-0.04em] sm:text-[1.45rem]"
+                  className="text-[1.05rem] font-semibold uppercase tracking-[-0.03em] sm:text-[1.45rem] sm:tracking-[-0.04em]"
                 >
                   <span className="text-[var(--color-accent-strong)]">/</span>{" "}
                   {specialty}

@@ -15,7 +15,6 @@ function SlotText({ text }: { text: string }) {
   const rightBrace = text.endsWith("}") ? "}" : "";
   const coreText = leftBrace && rightBrace ? text.slice(1, -1) : text;
   const animatedCharacters = coreText.split("").filter((character) => character !== " ");
-  let staggerIndex = 0;
 
   return (
     <span
@@ -32,16 +31,16 @@ function SlotText({ text }: { text: string }) {
 
       {coreText.split("").map((character, index) => {
         const glyph = character === " " ? "\u00A0" : character;
+        const staggerIndex = coreText
+          .slice(0, index)
+          .split("")
+          .filter((previousCharacter) => previousCharacter !== " ").length;
         const enterDelay =
           character === " " ? "0s" : `${staggerIndex * 0.06}s`;
         const leaveDelay =
           character === " "
             ? "0s"
             : `${(animatedCharacters.length - 1 - staggerIndex) * 0.06}s`;
-
-        if (character !== " ") {
-          staggerIndex += 1;
-        }
 
         return (
           <span
@@ -191,9 +190,9 @@ export function SiteHeader({ hrefPrefix = "" }: SiteHeaderProps) {
           <div className="justify-self-end">
             <a
               href={`${hrefPrefix}#contact`}
-              className="group inline-flex items-center pb-1 font-black uppercase tracking-[0.04em] text-white"
+              className="group hidden items-center pb-1 font-black uppercase tracking-[0.04em] text-white sm:inline-flex"
               style={{
-                gap: "calc(0.35rem + 0.2vw)",
+                gap: "calc(0.25rem + 0.2vw)",
                 fontSize: "calc(0.86rem + 0.28vw)",
               }}
             >

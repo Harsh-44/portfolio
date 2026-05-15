@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { achievements } from "@/app/_data/portfolio";
 import bandImage from "@/app/assets/images/awards/band.jpg";
 
@@ -28,6 +28,9 @@ export function AchievementsSection() {
                   key={achievement.title}
                   achievement={achievement}
                   isActive={activeIndex === index}
+                  onToggle={() =>
+                    setActiveIndex((current) => (current === index ? null : index))
+                  }
                   onEnter={() => setActiveIndex(index)}
                   onLeave={() => setActiveIndex(null)}
               />
@@ -39,27 +42,29 @@ export function AchievementsSection() {
 
 function AchievementItem({
                            achievement,
-                           isActive,
-                           onEnter,
-                           onLeave,
+  isActive,
+  onToggle,
+  onEnter,
+  onLeave,
                          }: {
   achievement: (typeof achievements)[number];
   isActive: boolean;
+  onToggle: () => void;
   onEnter: () => void;
   onLeave: () => void;
 }) {
-  const contentRef = useRef<HTMLDivElement>(null);
   const shouldShowImage = !achievement.title.includes("CTF");
 
   return (
       <article
+          onClick={onToggle}
           onMouseEnter={onEnter}
           onMouseLeave={onLeave}
-          className="border-t border-black/10 py-6"
+          className="cursor-pointer border-t border-black/10 py-6"
       >
         <div className="grid gap-5 lg:grid-cols-[minmax(12rem,0.42fr)_minmax(0,1fr)] lg:gap-10">
           <div>
-            <p className="font-mono text-[0.9rem] uppercase tracking-[0.02em] text-[var(--color-accent-strong)]">
+            <p className="font-mono text-[0.78rem] uppercase tracking-[0.08em] text-[var(--color-accent-strong)] sm:text-[0.9rem] sm:tracking-[0.02em]">
               {achievement.title}
             </p>
           </div>
@@ -67,10 +72,10 @@ function AchievementItem({
           <div className="space-y-2">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
-                <h3 className="max-w-[24ch] font-sans text-[clamp(1.6rem,2.4vw,2.55rem)] font-medium uppercase leading-[1.02] tracking-[-0.05em] text-[var(--color-text)]">
+                <h3 className="max-w-[24ch] font-sans text-[clamp(1.35rem,8vw,2.55rem)] font-medium uppercase leading-[1.02] tracking-[-0.05em] text-[var(--color-text)]">
                   {achievement.result}
                 </h3>
-                <p className="text-[1.05rem] text-[var(--color-muted)]">
+                <p className="text-[0.95rem] leading-7 text-[var(--color-muted)] sm:text-[1.05rem]">
                   {achievement.context}
                 </p>
               </div>
@@ -84,25 +89,22 @@ function AchievementItem({
         </div>
 
         <div
-            className="overflow-hidden transition-[max-height,opacity,margin-top] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+            className="grid overflow-hidden transition-[grid-template-rows,opacity,margin-top] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
             style={{
-              maxHeight: isActive
-                  ? `${contentRef.current?.scrollHeight || 0}px`
-                  : "0rem",
+              gridTemplateRows: isActive ? "1fr" : "0fr",
               opacity: isActive ? 1 : 0,
               marginTop: isActive ? "1rem" : "0rem",
             }}
         >
           <div
-            ref={contentRef}
-            className="space-y-6 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+            className="min-h-0 space-y-6 overflow-hidden transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
             style={{
               transform: `translateY(${isActive ? 0 : -8}px)`,
               opacity: isActive ? 1 : 0.72,
             }}
           >
             {shouldShowImage ? (
-              <div className="relative h-[340px] w-full overflow-hidden">
+              <div className="relative h-[220px] w-full overflow-hidden sm:h-[340px]">
                 <Image
                   src={bandImage}
                   alt="Band performance"

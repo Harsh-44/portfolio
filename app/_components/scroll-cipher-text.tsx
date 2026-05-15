@@ -157,7 +157,6 @@ export function ScrollCipherText({
 
   useEffect(() => {
     if (reducedMotion) {
-      setProgress(1);
       return;
     }
 
@@ -265,7 +264,6 @@ export function ScrollCipherText({
 
   const Component = as;
   const tokens = text.split(/(\s+)/);
-  let characterIndex = 0;
 
   return (
     <Component
@@ -275,8 +273,11 @@ export function ScrollCipherText({
     >
       <span aria-hidden="true">
         {tokens.map((token, tokenIndex) => {
+          const characterIndex = tokens
+            .slice(0, tokenIndex)
+            .reduce((total, previousToken) => total + previousToken.length, 0);
+
           if (/^\s+$/.test(token)) {
-            characterIndex += token.length;
             return <span key={`${text}-space-${tokenIndex}`}>{token}</span>;
           }
 
@@ -284,7 +285,6 @@ export function ScrollCipherText({
             characterIndex,
             characterIndex + token.length,
           );
-          characterIndex += token.length;
           const interactiveToken = interactiveTokens.find(
             (item) => item.token === token,
           );

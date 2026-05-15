@@ -61,6 +61,11 @@ export function ProjectsSection() {
     const update = () => {
       frame = 0;
 
+      if (window.innerWidth < 1024) {
+        document.documentElement.style.setProperty("--projects-header-hide", "0");
+        return;
+      }
+
       if (!sectionRef.current) {
         return;
       }
@@ -209,9 +214,60 @@ export function ProjectsSection() {
       </div>
 
       <section
-        ref={sectionRef}
         id="experiences"
-        className="section-anchor relative left-1/2 min-h-[300dvh] w-screen -translate-x-1/2"
+        className="section-anchor relative left-1/2 w-screen -translate-x-1/2 bg-[#08080a] px-4 py-16 text-white sm:px-6 lg:hidden"
+      >
+        <div className="mx-auto w-full max-w-[44rem] space-y-10">
+          <div className="space-y-3">
+            <p className="font-mono text-[0.72rem] uppercase tracking-[0.24em] text-white/40">
+              Industry Experience
+            </p>
+            <h2 className="font-display text-[clamp(2.6rem,14vw,4.6rem)] font-bold uppercase leading-[0.86] tracking-[-0.08em] text-white">
+              Selected Work.
+            </h2>
+          </div>
+
+          <div className="space-y-10">
+            {projects.map((project) => (
+              <article key={project.slug} className="space-y-4">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="block overflow-hidden bg-[#0d0f13] p-2"
+                >
+                  <div className="aspect-[1.35/1]">
+                    <ProjectVisual project={project} />
+                  </div>
+                </Link>
+
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-4">
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="font-display text-[clamp(2.15rem,10vw,3.2rem)] font-bold uppercase leading-[0.9] tracking-[-0.07em] text-white"
+                    >
+                      {project.title}
+                    </Link>
+                    <p className="shrink-0 pt-1 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-white/45">
+                      {project.year}
+                    </p>
+                  </div>
+
+                  <p className="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-[var(--color-accent)]">
+                    {project.label}
+                  </p>
+                  <p className="text-[0.96rem] leading-7 text-white/68">
+                    {project.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        ref={sectionRef}
+        className="section-anchor relative left-1/2 hidden min-h-[300dvh] w-screen -translate-x-1/2 lg:block"
       >
         <div
           className="pointer-events-none absolute inset-0"

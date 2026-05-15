@@ -1,18 +1,23 @@
 import { ArrowUpRight } from "lucide-react";
-import { profile } from "@/app/_data/portfolio";
 import { ScrollCipherText } from "@/app/_components/scroll-cipher-text";
+
+const aboutText =
+  "I'm a Singapore-based UI/UX Designer and Frontend Engineer who's a recent SUTD graduate in Cybersecurity and Software Engineering. I work at the intersection of product thinking and implementation, designing digital experiences that feel coherent, precise, and ready for production.";
 
 export function AboutSection() {
   return (
     <section
       id="about"
-      className="section-anchor relative flex min-h-dvh items-center px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
+      className="section-anchor relative flex flex-col justify-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:block lg:min-h-dvh lg:px-8 lg:py-24"
     >
-      <div className="mx-auto w-full max-w-[74rem]">
+      <div className="mx-auto flex w-full max-w-[74rem] items-center lg:min-h-dvh">
+        <p className="mx-auto max-w-[20rem] text-center text-[0.98rem] font-medium leading-8 tracking-[-0.015em] text-[var(--color-soft)] min-[430px]:max-w-[31rem] sm:text-[1.08rem] lg:hidden">
+          {aboutText}
+        </p>
         <ScrollCipherText
           as="p"
-          text={`I'm a Singapore-based UI/UX Designer and Frontend Engineer who's a recent SUTD graduate in Cybersecurity and Software Engineering. I work at the intersection of product thinking and implementation, designing digital experiences that feel coherent, precise, and ready for production.`}
-          className="font-mono text-center font-normal uppercase tracking-[0.06em] text-[var(--color-soft)] [text-wrap:balance] text-[clamp(1.2rem,0.95rem+0.7vw,1.8rem)] leading-[2.05]"
+          text={aboutText}
+          className="hidden font-mono text-center font-normal uppercase tracking-[0.06em] text-[var(--color-soft)] [text-wrap:balance] text-[clamp(1.2rem,0.95rem+0.7vw,1.8rem)] leading-[2.05] lg:block"
           interactiveTokens={[
             {
               token: "SUTD",
@@ -26,7 +31,7 @@ export function AboutSection() {
         />
       </div>
 
-      <div className="absolute bottom-28 left-4 flex flex-col items-start text-left sm:bottom-32 sm:left-6 lg:bottom-36 lg:left-8">
+      <div className="flex flex-col items-start text-left lg:absolute lg:bottom-36 lg:left-8">
         <div
           className="inline-flex items-center text-[var(--color-muted)]"
           style={{ gap: "0.45rem" }}
@@ -49,7 +54,7 @@ export function AboutSection() {
         >
           <span className="relative inline-block">
             <span
-              className="font-display text-[1.55rem] font-bold tracking-[-0.04em] sm:text-[1.85rem]"
+              className="break-all font-display text-[1.15rem] font-bold tracking-[-0.035em] sm:text-[1.85rem] sm:tracking-[-0.04em]"
             >
               harshhareendran58@gmail.com
             </span>
@@ -60,7 +65,7 @@ export function AboutSection() {
         </a>
       </div>
 
-      <div className="absolute bottom-10 right-4 flex flex-col items-end text-right sm:bottom-12 sm:right-6 lg:bottom-14 lg:right-8">
+      <div className="flex flex-col items-start text-left lg:absolute lg:bottom-14 lg:right-8 lg:items-end lg:text-right">
         <div
           className="inline-flex items-center justify-end text-[var(--color-muted)]"
           style={{ gap: "0.45rem" }}

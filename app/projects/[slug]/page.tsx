@@ -181,7 +181,7 @@ function ContentBlock({
           /{title}
         </h2>
 
-        <div className="max-w-[48rem] border-l border-black/8 pl-6 sm:pl-8">
+        <div className="max-w-[21rem] border-l border-black/8 pl-5 sm:max-w-[48rem] sm:pl-8">
           <div className="space-y-4 text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.03rem] [&>p:first-child]:font-display [&>p:first-child]:text-[clamp(1.45rem,2vw,1.9rem)] [&>p:first-child]:font-medium [&>p:first-child]:leading-[1.16] [&>p:first-child]:tracking-[-0.05em] [&>p:first-child]:text-[var(--color-ink)]">
             {children}
           </div>
@@ -226,13 +226,13 @@ function NarrativeLead({
           <p className="font-mono text-[0.72rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
             {eyebrow}
           </p>
-          <h2 className="max-w-[12ch] font-display text-[clamp(3.2rem,6vw,6.7rem)] font-semibold leading-[0.86] tracking-[-0.085em] text-[var(--color-ink)]">
+          <h2 className="max-w-[9ch] font-display text-[clamp(2.45rem,12vw,6.7rem)] font-semibold leading-[0.88] tracking-[-0.075em] text-[var(--color-ink)] sm:max-w-[12ch] sm:leading-[0.86] sm:tracking-[-0.085em]">
             {title}
           </h2>
         </div>
 
         <div className="space-y-10 xl:pt-11">
-          <div className="border-l border-black/10 pl-6 sm:pl-8">
+          <div className="max-w-[21rem] border-l border-black/10 pl-5 sm:max-w-none sm:pl-8">
             <div className="space-y-5 text-[1.02rem] leading-8 text-[var(--color-soft)] sm:text-[1.08rem] [&>p:first-child]:font-display [&>p:first-child]:text-[clamp(1.55rem,2.1vw,2.15rem)] [&>p:first-child]:font-medium [&>p:first-child]:leading-[1.16] [&>p:first-child]:tracking-[-0.055em] [&>p:first-child]:text-[var(--color-ink)]">
               {children}
             </div>
@@ -280,8 +280,8 @@ function ExperienceProjectPage({ project }: { project: ProjectItem }) {
 
   return (
     <PageShell>
-      <main className="mx-auto w-full max-w-[110rem] px-4 pb-20 pt-8 sm:px-6 lg:px-8">
-        <section className="flex min-h-[55svh] flex-col justify-between pt-2">
+      <main className="mx-auto w-full max-w-[110rem] px-4 pb-16 pt-6 sm:px-6 sm:pb-20 sm:pt-8 lg:px-8">
+        <section className="flex min-h-[auto] flex-col justify-between gap-10 pt-2 sm:min-h-[55svh]">
           <Link
             href="/#experiences"
             className="inline-flex items-center gap-2 font-medium text-[var(--color-muted)] transition-opacity duration-200 ease-out hover:opacity-70"
@@ -291,10 +291,10 @@ function ExperienceProjectPage({ project }: { project: ProjectItem }) {
           </Link>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,29rem)] lg:items-end lg:gap-10">
-            <h1 className="max-w-[10ch] font-display text-[clamp(4.2rem,8vw,9rem)] font-bold leading-[0.88] tracking-[-0.09em] text-[var(--color-ink)] mb-3">
+            <h1 className="mb-3 max-w-[10ch] font-display text-[clamp(3rem,17vw,9rem)] font-bold leading-[0.88] tracking-[-0.075em] text-[var(--color-ink)] sm:tracking-[-0.09em]">
               {withTrailingPeriod(project.title)}
             </h1>
-            <p className="max-w-[29rem] text-[1rem] font-bold leading-8 text-[var(--color-muted)] sm:text-[1.03rem]">
+            <p className="max-w-[21rem] text-[1rem] font-bold leading-8 text-[var(--color-muted)] sm:max-w-[29rem] sm:text-[1.03rem]">
               {project.heroSummary}
             </p>
           </div>
@@ -315,7 +315,7 @@ function ExperienceProjectPage({ project }: { project: ProjectItem }) {
           </div>
         </section>
 
-        <div className="pt-20 sm:pt-24">
+        <div className="pt-14 sm:pt-24">
           <NarrativeLead
             eyebrow="Case Study"
             title={experienceCaseStudyTitles[project.slug]}
@@ -448,8 +448,8 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
 
   return (
     <PageShell>
-      <main className="mx-auto w-full max-w-[110rem] px-4 pb-20 pt-8 sm:px-6 lg:px-8">
-        <section className="flex min-h-[68svh] flex-col justify-between gap-14 pt-2">
+      <main className="mx-auto w-full max-w-[110rem] px-4 pb-16 pt-6 sm:px-6 sm:pb-20 sm:pt-8 lg:px-8">
+        <section className="flex min-h-[auto] flex-col justify-between gap-10 pt-2 sm:min-h-[68svh] sm:gap-14">
           <Link
             href="/#projects"
             className="inline-flex items-center gap-2 font-medium text-[var(--color-muted)] transition-opacity duration-200 ease-out hover:opacity-70"
@@ -459,10 +459,10 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
           </Link>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,29rem)] lg:items-end lg:gap-10">
-            <h1 className="max-w-[10ch] font-display text-[clamp(4.2rem,8vw,9rem)] font-semibold leading-[0.88] tracking-[-0.09em] text-[var(--color-ink)]">
+            <h1 className="max-w-[11ch] font-display text-[clamp(3rem,16vw,9rem)] font-semibold leading-[0.88] tracking-[-0.075em] text-[var(--color-ink)] sm:tracking-[-0.09em]">
               {withTrailingPeriod(project.title)}
             </h1>
-            <p className="max-w-[29rem] text-[1rem] leading-8 text-[var(--color-soft)] sm:text-[1.03rem]">
+            <p className="max-w-[21rem] text-[1rem] leading-8 text-[var(--color-soft)] sm:max-w-[29rem] sm:text-[1.03rem]">
               {project.heroSummary}
             </p>
           </div>
@@ -499,7 +499,7 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
           <ArchiveProjectHeroImage project={project} />
         </section>
 
-        <div className="pt-20 sm:pt-24">
+        <div className="pt-14 sm:pt-24">
           <NarrativeLead
             eyebrow="Case Study"
             title={archiveCaseStudyTitles[project.slug] ?? "A Smaller Build With A Clear Point Of View."}
