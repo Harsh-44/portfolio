@@ -80,59 +80,6 @@ function StaticName({ text }: { text: string }) {
   );
 }
 
-function ClosingStatement() {
-  const statementRef = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = statementRef.current;
-
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      {
-        threshold: 0.42,
-        rootMargin: "0px 0px -12% 0px",
-      },
-    );
-
-    observer.observe(node);
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={statementRef}
-      className="mx-auto w-full max-w-[110rem] pt-8 sm:pt-10"
-      style={{
-        paddingInline: "calc(1rem + 0.8vw)",
-      }}
-    >
-      <p className="font-mono text-[0.66rem] uppercase tracking-[0.24em] text-white/36 sm:text-[0.72rem]">
-        Closing Note
-      </p>
-      <div className="mt-5 overflow-hidden">
-        <p
-          className="max-w-[15ch] font-editorial text-[clamp(3rem,13vw,8rem)] font-semibold italic leading-[0.9] tracking-[-0.055em] text-white sm:max-w-[18ch]"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible
-              ? "translate3d(0, 0, 0) skewY(0deg)"
-              : "translate3d(0, 38px, 0) skewY(2deg)",
-            filter: visible ? "blur(0px)" : "blur(10px)",
-            transition:
-              "opacity 900ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1), filter 1100ms ease",
-          }}
-        >
-          Let&apos;s build interfaces that feel as good as they function.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export function SiteFooter() {
   const [time, setTime] = useState(formatSingaporeTime(new Date()));
 
@@ -177,8 +124,6 @@ export function SiteFooter() {
           paddingInline: "calc(1rem + 0.8vw)",
         }}
       >
-        <ClosingStatement />
-
         <div className="w-full overflow-hidden">
           <StaticName text="HARSH" />
         </div>

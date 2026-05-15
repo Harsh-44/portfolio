@@ -1,6 +1,7 @@
 import { AchievementsSection } from "@/app/_components/achievements-section";
 import { ArchiveProjectsSection } from "@/app/_components/archive-projects-section";
 import { AboutSection } from "@/app/_components/about-section";
+import { ClosingStatementSection } from "@/app/_components/closing-statement-section";
 import { Hero } from "@/app/_components/hero";
 import { ProjectsSection } from "@/app/_components/projects-section";
 import { SiteFooter } from "@/app/_components/site-footer";
@@ -24,6 +25,7 @@ export default function Home() {
             <ArchiveProjectsSection />
             <AchievementsSection />
             <SkillsSection />
+            <ClosingStatementSection />
           </main>
         </div>
 
