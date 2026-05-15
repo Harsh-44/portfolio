@@ -3,6 +3,24 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { FaFigma, FaGithub, FaLinkedinIn } from "react-icons/fa6";
 
+const socialLinks = [
+  {
+    href: "https://www.linkedin.com/in/harsh-hareendran-kallinkeel-b81a60295/",
+    label: "LinkedIn",
+    Icon: FaLinkedinIn,
+  },
+  {
+    href: "https://github.com/Harsh-44",
+    label: "GitHub",
+    Icon: FaGithub,
+  },
+  {
+    href: "https://www.figma.com/@harsh_ui",
+    label: "Figma",
+    Icon: FaFigma,
+  },
+];
+
 function formatSingaporeTime(date: Date) {
   return new Intl.DateTimeFormat("en-SG", {
     timeZone: "Asia/Singapore",
@@ -81,15 +99,18 @@ export function SiteFooter() {
         }}
       >
         <div className="flex gap-5">
-          <a href="#" className="opacity-60 transition-opacity hover:opacity-100">
-            <FaLinkedinIn size={18} />
-          </a>
-          <a href="#" className="opacity-60 transition-opacity hover:opacity-100">
-            <FaGithub size={18} />
-          </a>
-          <a href="#" className="opacity-60 transition-opacity hover:opacity-100">
-            <FaFigma size={18} />
-          </a>
+          {socialLinks.map(({ href, label, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={label}
+              className="opacity-60 transition-opacity hover:opacity-100"
+            >
+              <Icon size={18} />
+            </a>
+          ))}
         </div>
 
         <p className="text-center font-mono text-xs uppercase tracking-[0.12em] opacity-60 sm:text-left sm:text-sm sm:tracking-[0.14em]">
