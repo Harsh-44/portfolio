@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import {
-  archiveProjects,
   type ArchiveProjectItem,
+  visibleArchiveProjects,
 } from "@/app/_data/portfolio";
 import ascendaImage from "@/app/assets/images/projects/ascenda.png";
 import ascendaFigmaImage from "@/app/assets/images/projects/ascendafigma.png";
@@ -116,6 +116,18 @@ const containProjects = new Set([
   "project-93",
   "network-security-ai",
 ]);
+
+function getSourceLinkLabel(project: ArchiveProjectItem) {
+  if (project.sourceHref?.includes("github.com")) {
+    return "Visit GitHub";
+  }
+
+  if (project.sourceLabel === "Figma") {
+    return "View Figma";
+  }
+
+  return project.sourceLabel ?? "Source";
+}
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -422,7 +434,7 @@ function ProjectPlaceholder({
                 rel="noreferrer"
                 className="group/link relative z-30 inline-flex shrink-0 cursor-pointer items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-white/74 transition-opacity duration-200 ease-out hover:opacity-70"
               >
-                {project.sourceLabel ?? "Source"}
+                {getSourceLinkLabel(project)}
                 <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)] transition-transform duration-300 ease-out group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
               </a>
             ) : (
@@ -452,7 +464,7 @@ export function ArchiveProjectsSection() {
   });
 
   const filterOptions = useMemo(() => {
-    const counts = archiveProjects.reduce<Record<string, number>>(
+    const counts = visibleArchiveProjects.reduce<Record<string, number>>(
       (accumulator, project) => {
         accumulator[project.kind] = (accumulator[project.kind] ?? 0) + 1;
         return accumulator;
@@ -461,7 +473,7 @@ export function ArchiveProjectsSection() {
     );
 
     return [
-      { value: "All" as const, label: "All", count: archiveProjects.length },
+      { value: "All" as const, label: "All", count: visibleArchiveProjects.length },
       ...(["Course Project", "Hackathon", "Template", "Learning", "Side Project"] as const)
         .filter((kind) => counts[kind])
         .map((kind) => ({
@@ -474,10 +486,10 @@ export function ArchiveProjectsSection() {
 
   const filteredProjects = useMemo(() => {
     if (filterMode === "All") {
-      return archiveProjects;
+      return visibleArchiveProjects;
     }
 
-    return archiveProjects.filter((project) => project.kind === filterMode);
+    return visibleArchiveProjects.filter((project) => project.kind === filterMode);
   }, [filterMode]);
 
   const displayedProjects = useMemo(() => {

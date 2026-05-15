@@ -7,11 +7,11 @@ import { ProjectVisual } from "@/app/_components/project-visual";
 import { SiteFooter } from "@/app/_components/site-footer";
 import { SiteHeader } from "@/app/_components/site-header";
 import {
-  archiveProjects,
   getProjectBySlug,
   projects,
   type ArchiveProjectItem,
   type ProjectItem,
+  visibleArchiveProjects,
 } from "@/app/_data/portfolio";
 import ascendaImage from "@/app/assets/images/projects/ascenda.png";
 import ascendaFigmaImage from "@/app/assets/images/projects/ascendafigma.png";
@@ -60,10 +60,22 @@ const containArchiveProjects = new Set([
   "network-security-ai",
 ]);
 
+function getSourceLinkLabel(project: ArchiveProjectItem) {
+  if (project.sourceHref?.includes("github.com")) {
+    return "Visit GitHub";
+  }
+
+  if (project.sourceLabel === "Figma") {
+    return "View Figma";
+  }
+
+  return project.sourceLabel ?? "View project";
+}
+
 export async function generateStaticParams() {
   return [
     ...projects.map((project) => ({ slug: project.slug })),
-    ...archiveProjects.map((project) => ({ slug: project.slug })),
+    ...visibleArchiveProjects.map((project) => ({ slug: project.slug })),
   ];
 }
 
@@ -423,10 +435,16 @@ function ArchiveProjectHeroImage({ project }: { project: ArchiveProjectItem }) {
 }
 
 function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
-  const projectIndex = archiveProjects.findIndex((item) => item.slug === project.slug);
+  const projectIndex = visibleArchiveProjects.findIndex(
+    (item) => item.slug === project.slug,
+  );
   const previousProject =
-    archiveProjects[(projectIndex - 1 + archiveProjects.length) % archiveProjects.length];
-  const nextProject = archiveProjects[(projectIndex + 1) % archiveProjects.length];
+    visibleArchiveProjects[
+      (projectIndex - 1 + visibleArchiveProjects.length) %
+        visibleArchiveProjects.length
+    ];
+  const nextProject =
+    visibleArchiveProjects[(projectIndex + 1) % visibleArchiveProjects.length];
 
   return (
     <PageShell>
@@ -464,7 +482,7 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-[var(--color-ink)] transition-opacity duration-200 ease-out hover:opacity-70"
                   >
-                    {project.sourceLabel ?? "View project"}
+                    {getSourceLinkLabel(project)}
                     <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)]" />
                   </Link>
                 ) : (
@@ -556,5 +574,5 @@ function ArchiveProjectPage({ project }: { project: ArchiveProjectItem }) {
 }
 
 function getArchiveProjectBySlug(slug: string) {
-  return archiveProjects.find((project) => project.slug === slug);
+  return visibleArchiveProjects.find((project) => project.slug === slug);
 }

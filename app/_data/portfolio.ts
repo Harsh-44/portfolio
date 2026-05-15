@@ -40,6 +40,7 @@ export type ArchiveProjectItem = {
   stack: string[];
   sourceLabel?: string;
   sourceHref?: string;
+  hidden?: boolean;
   detailIntro: string;
   challenge: string;
   approach: string[];
@@ -550,6 +551,7 @@ export const archiveProjects: ArchiveProjectItem[] = [
     stack: ["Python", "Streamlit", "Machine Learning"],
     sourceLabel: "GitHub",
     sourceHref: "https://github.com/Harsh-44/irisapp",
+    hidden: true,
     detailIntro:
       "Irisapp was a small machine-learning interface project focused on making a simple classifier understandable through direct user input and immediate feedback.",
     challenge:
@@ -577,6 +579,7 @@ export const archiveProjects: ArchiveProjectItem[] = [
     stack: ["Python", "Streamlit", "Model Comparison"],
     sourceLabel: "GitHub",
     sourceHref: "https://github.com/Harsh-44/Project-93",
+    hidden: true,
     detailIntro:
       "Project 93 expanded a simple prediction interface into a comparison tool, making it easier to understand how different classifiers perform on the same task.",
     challenge:
@@ -701,6 +704,10 @@ export const archiveProjects: ArchiveProjectItem[] = [
     ],
   },
 ];
+
+export const visibleArchiveProjects = archiveProjects.filter(
+  (project) => !project.hidden,
+);
 
 export const achievements: AchievementItem[] = [
   {
